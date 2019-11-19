@@ -1,13 +1,13 @@
 # @my-id-bot for Telegram
 
-Demo: [@my_id_bot in Telegram](https://t.me/my_id_bot), [alternative URL](tg://resolve?domain=my_id_bot)
+Demo: [@my_id_bot in Telegram](https://t.me/my_id_bot).  
 
 This is a simple bot written with [aiogram](https://github.com/aiogram/aiogram) framework to show some IDs, like:
 
-* Your user ID (when asked in inline mode or in private chat with any message)  
-* Group/supergroup ID (when added to that group or with /id command)  
-* Channel ID (when message forwarded from channel to one-to-one chat with bot)  
-* Group to supergroup migrate information (both old and new ID)
+* Your user ID (when asked in inline mode or in private chat with any message);  
+* Group/supergroup ID (when added to that group or with /id command);  
+* Channel ID (when message forwarded from channel to one-to-one chat with bot);  
+* Group to supergroup migrate information (both old and new ID).
 
 #### Requirements:
 * Python 3.7 and above;  
