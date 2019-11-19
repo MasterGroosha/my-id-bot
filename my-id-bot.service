@@ -1,0 +1,15 @@
+[Unit]
+Description=@my_id_bot for Telegram
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/bot/my-id-bot
+ExecStart=/home/bot/my-id-bot/bot.py
+KillMode=process
+Restart=always
+RestartSec=10
+Environment=BOT_TOKEN=1234567890:AABCDefGhIJk000xyz
+
+[Install]
+WantedBy=multi-user.target
