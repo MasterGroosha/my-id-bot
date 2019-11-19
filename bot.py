@@ -13,6 +13,15 @@ dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
 
+@dp.message_handler(lambda message: message.forward_from_chat)
+async def get_channel_id(message: types.Message):
+    """
+    Handler for message forwarded from channel to some other chat
+    :param message: Telegram message with "forward_from_chat" field not empty
+    """
+    await message.reply(f"This channel's ID is <code>{message.forward_from_chat.id}</code>", parse_mode="HTML")
+
+
 @dp.message_handler(content_types=["new_chat_members"])
 async def new_chat(message: types.Message):
     """
@@ -70,15 +79,6 @@ async def just_tell_id(message: types.Message):
     """
     await bot.send_message(message.chat.id, f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>",
                            parse_mode="HTML")
-
-
-@dp.message_handler(lambda message: message.forward_from_chat)
-async def get_channel_id(message: types.Message):
-    """
-    Handler for message forwarded from channel to some other chat
-    :param message: Telegram message with "forward_from_chat" field not empty
-    """
-    await message.reply(f"This channel's ID is <code>{message.forward_from_chat.id}</code>", parse_mode="HTML")
 
 
 @dp.inline_handler()
