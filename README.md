@@ -1,4 +1,4 @@
-# @my-id-bot for Telegram
+# Bot to get users/chats IDs in Telegram
 
 Demo: [@my_id_bot in Telegram](https://t.me/my_id_bot).  
 
