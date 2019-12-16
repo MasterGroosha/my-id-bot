@@ -9,7 +9,7 @@ if not getenv("BOT_TOKEN"):
     exit("Error: no token provided. Terminated.")
 
 # Initialize bot and dispatcher
-bot = Bot(token=getenv("BOT_TOKEN"))
+bot = Bot(token=getenv("BOT_TOKEN"), parse_mode="HTML")
 dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
@@ -20,7 +20,7 @@ async def get_channel_id(message: types.Message):
     Handler for message forwarded from channel to some other chat
     :param message: Telegram message with "forward_from_chat" field not empty
     """
-    await message.reply(f"This channel's ID is <code>{message.forward_from_chat.id}</code>", parse_mode="HTML")
+    await message.reply(f"This channel's ID is <code>{message.forward_from_chat.id}</code>")
 
 
 @dp.message_handler(lambda message: message.forward_from)
@@ -30,9 +30,9 @@ async def get_user_id_no_privacy(message: types.Message):
     :param message: Telegram message with "forward_from" field not empty
     """
     if message.forward_from.is_bot:
-        await message.reply(f"This bot's ID is <code>{message.forward_from.id}</code>", parse_mode="HTML")
+        await message.reply(f"This bot's ID is <code>{message.forward_from.id}</code>")
     else:
-        await message.reply(f"This user's ID is <code>{message.forward_from.id}</code>", parse_mode="HTML")
+        await message.reply(f"This user's ID is <code>{message.forward_from.id}</code>")
 
 
 @dp.message_handler(lambda message: message.forward_sender_name)
@@ -43,8 +43,7 @@ async def get_user_id_with_privacy(message: types.Message):
     """
     await message.reply(f'This user decided to <b>hide</b> their ID.\n\n'
                         f'Learn more about this feature '
-                        f'<a href="https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding">here</a>.',
-                        parse_mode="HTML")
+                        f'<a href="https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding">here</a>.')
 
 
 @dp.message_handler(content_types=["new_chat_members"])
@@ -59,8 +58,7 @@ async def new_chat(message: types.Message):
     for user in message.new_chat_members:
         if user.id == bot_id:
             await bot.send_message(message.chat.id,
-                                   f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>",
-                                   parse_mode="HTML")
+                                   f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
 
 
 @dp.message_handler(content_types=["migrate_to_chat_id"])
@@ -72,8 +70,7 @@ async def group_upgrade_to(message: types.Message):
     :param message: Telegram message with "migrate_to_chat_id" field not empty
     """
     await bot.send_message(message.migrate_to_chat_id, f"Group upgraded to supergroup.\n"
-                                                       f"New ID: <code>{message.migrate_to_chat_id}</code>",
-                           parse_mode="HTML")
+                                                       f"New ID: <code>{message.migrate_to_chat_id}</code>")
 
 
 @dp.message_handler(content_types=["migrate_from_chat_id"])
@@ -83,8 +80,7 @@ async def group_upgrade_from(message: types.Message):
     :param message: Telegram message with "migrate_from_chat_id" field not empty
     """
     await bot.send_message(message.chat.id, f"Group upgraded to supergroup.\n"
-                                            f"Previous ID: <code>{message.migrate_from_chat_id}</code>",
-                           parse_mode="HTML")
+                                            f"Previous ID: <code>{message.migrate_from_chat_id}</code>")
 
 
 @dp.message_handler(commands=["id"])
@@ -93,8 +89,7 @@ async def just_tell_id(message: types.Message):
     /id command handler for all chats
     :param message: Telegram message with "/id" command in text
     """
-    await bot.send_message(message.chat.id, f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>",
-                           parse_mode="HTML")
+    await bot.send_message(message.chat.id, f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
 
 
 @dp.message_handler(lambda message: message.chat.type == "private")
@@ -104,7 +99,7 @@ async def private_chat(message: types.Message):
     :param message: Telegram message sent to private chat (one-to-one dialogue)
     """
     try:
-        await message.reply(f"Your Telegram ID is <code>{message.chat.id}</code>", parse_mode="HTML")
+        await message.reply(f"Your Telegram ID is <code>{message.chat.id}</code>")
     except BotBlocked:
         pass  # Simply do nothing in this case
 
@@ -120,8 +115,7 @@ async def inline_message(query: types.InlineQuery):
         title=f"Your ID is {query.from_user.id}",
         description="Tap to send your ID to current chat",
         input_message_content=types.InputTextMessageContent(
-            message_text=f"My Telegram ID is <code>{query.from_user.id}</code>",
-            parse_mode="HTML"
+            message_text=f"My Telegram ID is <code>{query.from_user.id}</code>"
         )
     )
     # Do not forget about is_personal parameter! Otherwise all people will see the same ID
