@@ -22,6 +22,30 @@ async def get_channel_id(message: types.Message):
     await message.reply(f"This channel's ID is <code>{message.forward_from_chat.id}</code>", parse_mode="HTML")
 
 
+@dp.message_handler(lambda message: message.forward_from)
+async def get_user_id_no_privacy(message: types.Message):
+    """
+    Handler for message forwarded from other user who doesn't hide their ID
+    :param message: Telegram message with "forward_from" field not empty
+    """
+    if message.forward_from.is_bot:
+        await message.reply(f"This bot's ID is <code>{message.forward_from.id}</code>", parse_mode="HTML")
+    else:
+        await message.reply(f"This user's ID is <code>{message.forward_from.id}</code>", parse_mode="HTML")
+
+
+@dp.message_handler(lambda message: message.forward_sender_name)
+async def get_user_id_with_privacy(message: types.Message):
+    """
+    Handler for message forwarded from other user who hides their ID
+    :param message: Telegram message with "forward_sender_name" field not empty
+    """
+    await message.reply(f'This user decided to <b>hide</b> their ID.\n\n'
+                        f'Learn more about this feature '
+                        f'<a href="https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding">here</a>.',
+                        parse_mode="HTML")
+
+
 @dp.message_handler(content_types=["new_chat_members"])
 async def new_chat(message: types.Message):
     """
