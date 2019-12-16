@@ -17,7 +17,7 @@ This is a simple bot written with [aiogram](https://github.com/aiogram/aiogram) 
 #### Installation:  
 1. Create a directory for bot: `mkdir my-id-bot`;  
 2. `cd my-id-bot && python3 -m venv venv`;  
-3. Put `bot.py` file to `my-id-bot` directory, open it and change first line to match your current path to `venv/bin/python` executable;  
+3. Put `bot.py` file to `my-id-bot` directory;  
 4. `source venv/bin/python && pip install aiogram`;  
 5. `chmod +x bot.py`;  
 6. `BOT_TOKEN=yourtoken ./bot.py`
