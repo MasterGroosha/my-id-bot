@@ -1,6 +1,7 @@
 #!venv/bin/python
 import logging
 from aiogram import Bot, Dispatcher, executor, types
+from aiogram.utils.exceptions import BotBlocked
 from os import getenv
 from sys import exit
 
@@ -102,7 +103,10 @@ async def private_chat(message: types.Message):
     Handler for messages in private chat (one-to-one dialogue)
     :param message: Telegram message sent to private chat (one-to-one dialogue)
     """
-    await message.reply(f"Your Telegram ID is <code>{message.chat.id}</code>", parse_mode="HTML")
+    try:
+        await message.reply(f"Your Telegram ID is <code>{message.chat.id}</code>", parse_mode="HTML")
+    except BotBlocked:
+        pass  # Simply do nothing in this case
 
 
 @dp.inline_handler()
