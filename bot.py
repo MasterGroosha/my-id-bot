@@ -62,15 +62,6 @@ async def group_upgrade_from(message: types.Message):
                            parse_mode="HTML")
 
 
-@dp.message_handler(lambda message: message.chat.type == "private")
-async def private_chat(message: types.Message):
-    """
-    Handler for messages in private chat (one-to-one dialogue)
-    :param message: Telegram message sent to private chat (one-to-one dialogue)
-    """
-    await message.reply(f"Your Telegram ID is <code>{message.chat.id}</code>", parse_mode="HTML")
-
-
 @dp.message_handler(commands=["id"])
 async def just_tell_id(message: types.Message):
     """
@@ -79,6 +70,15 @@ async def just_tell_id(message: types.Message):
     """
     await bot.send_message(message.chat.id, f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>",
                            parse_mode="HTML")
+
+
+@dp.message_handler(lambda message: message.chat.type == "private")
+async def private_chat(message: types.Message):
+    """
+    Handler for messages in private chat (one-to-one dialogue)
+    :param message: Telegram message sent to private chat (one-to-one dialogue)
+    """
+    await message.reply(f"Your Telegram ID is <code>{message.chat.id}</code>", parse_mode="HTML")
 
 
 @dp.inline_handler()
