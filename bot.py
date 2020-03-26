@@ -14,7 +14,7 @@ dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
 
-@dp.message_handler(lambda message: message.forward_from_chat)
+@dp.message_handler(lambda message: message.forward_from_chat, content_types=types.ContentTypes.ANY)
 async def get_channel_id(message: types.Message):
     """
     Handler for message forwarded from channel to some other chat
@@ -23,7 +23,7 @@ async def get_channel_id(message: types.Message):
     await message.reply(f"This channel's ID is <code>{message.forward_from_chat.id}</code>")
 
 
-@dp.message_handler(lambda message: message.forward_from)
+@dp.message_handler(lambda message: message.forward_from, content_types=types.ContentTypes.ANY)
 async def get_user_id_no_privacy(message: types.Message):
     """
     Handler for message forwarded from other user who doesn't hide their ID
@@ -35,7 +35,7 @@ async def get_user_id_no_privacy(message: types.Message):
         await message.reply(f"This user's ID is <code>{message.forward_from.id}</code>")
 
 
-@dp.message_handler(lambda message: message.forward_sender_name)
+@dp.message_handler(lambda message: message.forward_sender_name, content_types=types.ContentTypes.ANY)
 async def get_user_id_with_privacy(message: types.Message):
     """
     Handler for message forwarded from other user who hides their ID
@@ -92,7 +92,7 @@ async def just_tell_id(message: types.Message):
     await bot.send_message(message.chat.id, f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
 
 
-@dp.message_handler(lambda message: message.chat.type == "private")
+@dp.message_handler(lambda message: message.chat.type == "private", content_types=types.ContentTypes.ANY)
 async def private_chat(message: types.Message):
     """
     Handler for messages in private chat (one-to-one dialogue)
