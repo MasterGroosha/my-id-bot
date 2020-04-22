@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 async def just_tell_id(message: types.Message):
     """
     /id command handler for all chats
-    :param message: Telegram message with "/id" command in text
+    :param message: Telegram message with "/id" command
     """
     await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
 
@@ -27,7 +27,7 @@ async def just_tell_id(message: types.Message):
 async def show_help(message: types.Message):
     """
     /help command handler for all chats
-    :param message: Telegram message with "/id" command in text
+    :param message: Telegram message with "/help" command
     """
     await message.answer('Use this bot to get ID for different entities across Telegram. '
                          'Source code: https://github.com/MasterGroosha/my-id-bot.')
