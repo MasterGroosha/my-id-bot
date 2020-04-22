@@ -14,6 +14,25 @@ dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
 
+@dp.message_handler(commands="id")
+async def just_tell_id(message: types.Message):
+    """
+    /id command handler for all chats
+    :param message: Telegram message with "/id" command in text
+    """
+    await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
+
+
+@dp.message_handler(commands="help")
+async def show_help(message: types.Message):
+    """
+    /help command handler for all chats
+    :param message: Telegram message with "/id" command in text
+    """
+    await message.answer('Use this bot to get ID for different entities across Telegram. '
+                         'Source code: https://github.com/MasterGroosha/my-id-bot.')
+
+
 @dp.message_handler(lambda message: message.forward_from_chat, content_types=types.ContentTypes.ANY)
 async def get_channel_id(message: types.Message):
     """
@@ -81,15 +100,6 @@ async def group_upgrade_from(message: types.Message):
     """
     await bot.send_message(message.chat.id, f"Group upgraded to supergroup.\n"
                                             f"Previous ID: <code>{message.migrate_from_chat_id}</code>")
-
-
-@dp.message_handler(commands=["id"])
-async def just_tell_id(message: types.Message):
-    """
-    /id command handler for all chats
-    :param message: Telegram message with "/id" command in text
-    """
-    await bot.send_message(message.chat.id, f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
 
 
 @dp.message_handler(lambda message: message.chat.type == "private", content_types=types.ContentTypes.ANY)
