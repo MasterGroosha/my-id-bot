@@ -12,7 +12,8 @@ This is a simple bot written with [aiogram](https://github.com/aiogram/aiogram) 
 #### Requirements:
 * Python 3.7 and above;  
 * Linux (should work on Windows, but not tested);   
-* Systemd init system (not necessary).
+* Systemd init system (not necessary).  
+* Docker (optional, see below).
 
 #### Installation:  
 1. Create a directory for bot: `mkdir my-id-bot`;  
@@ -25,5 +26,6 @@ This is a simple bot written with [aiogram](https://github.com/aiogram/aiogram) 
 If you want systemd support for autostart and other tasks: open `my-id-bot.service` file, change relevant options to match yours, enter correct token.  
 Now copy that file to `/etc/systemd/system` enable it with `systemctl enable my-id-bot.service` and run it: `systemctl restart my-id-bot.service`. Easy!
 
- 
-
+Alternatively, you can use Docker (experimental):  
+Build image: `docker build -t my-id-bot-image .`  
+Run container: `docker run -e BOT_TOKEN=12345:abcxyz --name my-id-bot -d --rm my-id-bot-image`
