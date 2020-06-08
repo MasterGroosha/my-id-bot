@@ -82,9 +82,8 @@ async def new_chat(message: types.Message):
     bot itself is added to group (bot's ID is the first part of token before ":" symbol)
     :param message: Telegram message with "new_chat_members" field not empty
     """
-    bot_id = int(getenv("BOT_TOKEN").split(":")[0])
     for user in message.new_chat_members:
-        if user.id == bot_id:
+        if user.id == bot.id:
             await bot.send_message(message.chat.id,
                                    f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
             stats.track("Added to group")
