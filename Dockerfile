@@ -3,4 +3,5 @@ RUN apt update && apt install -y gcc && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 COPY bot.py /bot.py
+COPY stats.py /stats.py
 CMD ["python", "bot.py"]
