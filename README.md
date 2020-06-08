@@ -21,11 +21,11 @@ This is a simple bot written with [aiogram](https://github.com/aiogram/aiogram) 
 3. Put `bot.py` file to `my-id-bot` directory;  
 4. `source venv/bin/python && pip install -r requirements.txt`;  
 5. `chmod +x bot.py`;  
-6. `BOT_TOKEN=12345:abcxyz ./bot.py`
+A6. `BOT_TOKEN=12345:abcxyz ENABLE_STATS=0 ./bot.py`
 
 If you want systemd support for autostart and other tasks: open `my-id-bot.service` file, change relevant options to match yours, enter correct token.  
 Now copy that file to `/etc/systemd/system` enable it with `systemctl enable my-id-bot.service` and run it: `systemctl restart my-id-bot.service`. Easy!
 
 Alternatively, you can use Docker (experimental):  
 Build image: `docker build -t my-id-bot-image .`  
-Run container: `docker run -e BOT_TOKEN=12345:abcxyz --name my-id-bot -d --rm my-id-bot-image`
+Run container: `docker run -e BOT_TOKEN=12345:abcxyz -e ENABLE_STATS=0 --name my-id-bot -d --rm my-id-bot-image`

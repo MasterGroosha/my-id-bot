@@ -9,7 +9,8 @@ ExecStart=/home/bot/my-id-bot/bot.py
 KillMode=process
 Restart=always
 RestartSec=10
-Environment=BOT_TOKEN=1234567890:AABCDefGhIJk000xyz
+Environment=BOT_TOKEN=12345:abcxyz
+Environment=ENABLE_STATS=0
 
 [Install]
 WantedBy=multi-user.target
