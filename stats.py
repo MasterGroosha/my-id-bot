@@ -6,12 +6,14 @@ if not en or en.lower() in ["0", "false", "no"]:
     enabled = False
 else:
     enabled = True
+
 log_name = "my_id_bot"
+log_level = 21  # One level higher than INFO
 logger = logging.getLogger(log_name)
 
 
 def setup_log():
-    logging.addLevelName(21, log_name)
+    logging.addLevelName(log_level, log_name)
     stats = logging.getLogger(log_name)
     fh = logging.FileHandler(f"{log_name}.log")
     formatter = logging.Formatter('0.0.0.0 %(asctime)s - %(levelname)s - %(message)s', "%Y-%m-%d %H:%M:%S")
@@ -21,4 +23,4 @@ def setup_log():
 
 def track(message):
     if enabled:
-        logger.log(21, message)
+        logger.log(log_level, message)
