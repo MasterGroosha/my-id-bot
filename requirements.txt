@@ -1,1 +1,1 @@
-aiogram>=2.9
+aiogram>=2.9.2
