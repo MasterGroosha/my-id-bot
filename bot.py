@@ -190,5 +190,12 @@ async def errors_handler(update, error):
     return True
 
 
+async def setup_bot_commands(dispatcher: Dispatcher):
+    await bot.set_my_commands([
+        types.BotCommand(command="/id", description="Tell your ID or group's ID"),
+        types.BotCommand(command="/help", description="Help and source code"),
+    ])
+
+
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates=True, on_startup=setup_bot_commands)
