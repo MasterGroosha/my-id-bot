@@ -49,7 +49,10 @@ async def get_channel_id(message: types.Message):
     Handler for message forwarded from channel to some other chat
     :param message: Telegram message with "forward_from_chat" field not empty
     """
-    await message.reply(f"This channel's ID is <code>{message.forward_from_chat.id}</code>")
+    msg = f"This channel's ID is <code>{message.forward_from_chat.id}</code>"
+    if message.sticker:
+        msg += f"\nAlso this sticker's ID is <code>{message.sticker.file_id}</code>"
+    await message.reply(msg)
     logs.track("Get channel ID")
 
 
@@ -60,9 +63,12 @@ async def get_user_id_no_privacy(message: types.Message):
     :param message: Telegram message with "forward_from" field not empty
     """
     if message.forward_from.is_bot:
-        await message.reply(f"This bot's ID is <code>{message.forward_from.id}</code>")
+        msg = f"This bot's ID is <code>{message.forward_from.id}</code>"
     else:
-        await message.reply(f"This user's ID is <code>{message.forward_from.id}</code>")
+        msg = f"This user's ID is <code>{message.forward_from.id}</code>"
+    if message.sticker:
+        msg += f"\nAlso this sticker's ID is <code>{message.sticker.file_id}</code>"
+    await message.reply(msg)
     logs.track("Check user or bot")
 
 
@@ -72,9 +78,11 @@ async def get_user_id_with_privacy(message: types.Message):
     Handler for message forwarded from other user who hides their ID
     :param message: Telegram message with "forward_sender_name" field not empty
     """
-    await message.reply(f'This user decided to <b>hide</b> their ID.\n\n'
-                        f'Learn more about this feature '
-                        f'<a href="https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding">here</a>.')
+    msg = f"This user decided to <b>hide</b> their ID.\n\nLearn more about this feature "
+    f"<a href=\"https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding\">here</a>."
+    if message.sticker:
+        msg += f"\n\nAlso this sticker's ID is <code>{message.sticker.file_id}</code>"
+    await message.reply(msg)
     logs.track("Check user or bot")
 
 
@@ -122,7 +130,10 @@ async def private_chat(message: types.Message):
     Handler for messages in private chat (one-to-one dialogue)
     :param message: Telegram message sent to private chat (one-to-one dialogue)
     """
-    await message.reply(f"Your Telegram ID is <code>{message.chat.id}</code>")
+    msg = f"Your Telegram ID is <code>{message.chat.id}</code>"
+    if message.sticker:
+        msg += f"\n\nAlso this sticker's ID is <code>{message.sticker.file_id}</code>"
+    await message.reply(msg)
     logs.track("Any message in PM")
 
 
