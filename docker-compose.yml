@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+    my-id-bot:
+        image: groosha/my-id-bot:latest
+        container_name: "my-id-bot"
+        volumes:
+            - "/tmp/my_id_bot_logs:/logs"
+        restart: always
+        environment:
+            - BOT_TOKEN=12345:abcxyz
+            - ENABLE_STATS=0
