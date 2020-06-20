@@ -1,13 +1,17 @@
 #!venv/bin/python
 import logging
 from aiogram import Bot, Dispatcher, executor, types
-from aiogram.utils.exceptions import BotBlocked
+from aiogram.utils.exceptions import BotBlocked, TelegramAPIError
 from os import getenv
 from sys import exit
-import stats
+import logs
 
-if stats.enabled:
-    stats.setup_log()
+
+logs.setup_errors_log()
+if logs.enabled:
+    logs.setup_stats_log()
+
+errors_logger = logging.getLogger("errors")
 
 if not getenv("BOT_TOKEN"):
     exit("Error: no token provided. Terminated.")
@@ -18,14 +22,24 @@ dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
 
+@dp.message_handler(lambda message: message.chat.type == "private", commands="start")
+async def cmd_start(message: types.Message):
+    """
+    /start command handler for private chats
+    :param message: Telegram message with "/start" command
+    """
+    await message.answer(f"Your Telegram ID is <code>{message.chat.id}</code>\nHelp and source code: /help")
+    logs.track("/start")
+
+
 @dp.message_handler(commands="id")
-async def just_tell_id(message: types.Message):
+async def cmd_id(message: types.Message):
     """
     /id command handler for all chats
     :param message: Telegram message with "/id" command
     """
     await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
-    stats.track("/id")
+    logs.track("/id")
 
 
 @dp.message_handler(commands="help")
@@ -34,9 +48,14 @@ async def show_help(message: types.Message):
     /help command handler for all chats
     :param message: Telegram message with "/help" command
     """
-    await message.answer('Use this bot to get ID for different entities across Telegram. '
+    await message.answer('Use this bot to get ID for different entities across Telegram:\n'
+                         '• Forward message from channel to get channel ID;\n'
+                         '• Forward message from user to get their ID (unless they restrict from doing so);\n'
+                         '• Send a sticker to get its file_id (currently you can use the sticker\'s file_id with any bot);\n'
+                         '• Add bot to group to get its ID (it will even tell you when you migrate from group to supergroup);\n'
+                         '• Use inline mode to send your Telegram ID to any chat.\n\n'
                          'Source code: https://github.com/MasterGroosha/my-id-bot.')
-    stats.track("/help")
+    logs.track("/help")
 
 
 @dp.message_handler(lambda message: message.forward_from_chat, content_types=types.ContentTypes.ANY)
@@ -45,8 +64,11 @@ async def get_channel_id(message: types.Message):
     Handler for message forwarded from channel to some other chat
     :param message: Telegram message with "forward_from_chat" field not empty
     """
-    await message.reply(f"This channel's ID is <code>{message.forward_from_chat.id}</code>")
-    stats.track("Get channel ID")
+    msg = f"This channel's ID is <code>{message.forward_from_chat.id}</code>"
+    if message.sticker:
+        msg += f"\nAlso this sticker's ID is <code>{message.sticker.file_id}</code>"
+    await message.reply(msg)
+    logs.track("Get channel ID")
 
 
 @dp.message_handler(lambda message: message.forward_from, content_types=types.ContentTypes.ANY)
@@ -56,10 +78,13 @@ async def get_user_id_no_privacy(message: types.Message):
     :param message: Telegram message with "forward_from" field not empty
     """
     if message.forward_from.is_bot:
-        await message.reply(f"This bot's ID is <code>{message.forward_from.id}</code>")
+        msg = f"This bot's ID is <code>{message.forward_from.id}</code>"
     else:
-        await message.reply(f"This user's ID is <code>{message.forward_from.id}</code>")
-    stats.track("Check user or bot")
+        msg = f"This user's ID is <code>{message.forward_from.id}</code>"
+    if message.sticker:
+        msg += f"\nAlso this sticker's ID is <code>{message.sticker.file_id}</code>"
+    await message.reply(msg)
+    logs.track("Check user or bot")
 
 
 @dp.message_handler(lambda message: message.forward_sender_name, content_types=types.ContentTypes.ANY)
@@ -68,10 +93,12 @@ async def get_user_id_with_privacy(message: types.Message):
     Handler for message forwarded from other user who hides their ID
     :param message: Telegram message with "forward_sender_name" field not empty
     """
-    await message.reply(f'This user decided to <b>hide</b> their ID.\n\n'
-                        f'Learn more about this feature '
-                        f'<a href="https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding">here</a>.')
-    stats.track("Check user or bot")
+    msg = f"This user decided to <b>hide</b> their ID.\n\nLearn more about this feature "
+    f"<a href=\"https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding\">here</a>."
+    if message.sticker:
+        msg += f"\n\nAlso this sticker's ID is <code>{message.sticker.file_id}</code>"
+    await message.reply(msg)
+    logs.track("Check user or bot")
 
 
 @dp.message_handler(content_types=["new_chat_members"])
@@ -86,7 +113,7 @@ async def new_chat(message: types.Message):
         if user.id == bot.id:
             await bot.send_message(message.chat.id,
                                    f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
-            stats.track("Added to group")
+            logs.track("Added to group")
 
 
 @dp.message_handler(content_types=["migrate_to_chat_id"])
@@ -99,7 +126,7 @@ async def group_upgrade_to(message: types.Message):
     """
     await bot.send_message(message.migrate_to_chat_id, f"Group upgraded to supergroup.\n"
                                                        f"New ID: <code>{message.migrate_to_chat_id}</code>")
-    stats.track("Group migrate")
+    logs.track("Group migrate")
 
 
 @dp.message_handler(content_types=["migrate_from_chat_id"])
@@ -118,11 +145,11 @@ async def private_chat(message: types.Message):
     Handler for messages in private chat (one-to-one dialogue)
     :param message: Telegram message sent to private chat (one-to-one dialogue)
     """
-    try:
-        await message.reply(f"Your Telegram ID is <code>{message.chat.id}</code>")
-        stats.track("Any message in PM")
-    except BotBlocked:
-        pass  # Simply do nothing in this case
+    msg = f"Your Telegram ID is <code>{message.chat.id}</code>"
+    if message.sticker:
+        msg += f"\n\nAlso this sticker's ID is <code>{message.sticker.file_id}</code>"
+    await message.reply(msg)
+    logs.track("Any message in PM")
 
 
 @dp.inline_handler()
@@ -141,8 +168,37 @@ async def inline_message(query: types.InlineQuery):
     )
     # Do not forget about is_personal parameter! Otherwise all people will see the same ID
     await bot.answer_inline_query(query.id, [result], cache_time=3600, is_personal=True)
-    stats.track("Inline mode")
+    logs.track("Inline mode")
+
+
+@dp.errors_handler(exception=BotBlocked)
+async def bot_blocked_exception(update, error):
+    # If bot is blocked, we can't send message, so give up
+    return True
+
+
+@dp.errors_handler(exception=TelegramAPIError)
+async def errors_handler(update, error):
+    # Here we collect all available exceptions from Telegram and write them to file
+    # First, we don't want to log BotBlocked exception, so we skip it
+    if isinstance(error, BotBlocked):
+        return True
+    # We collect some info about an exception and write to file
+    error_msg = f"Exception of type {type(error)}. Chat ID: {update.message.chat.id}. " \
+                f"User ID: {update.message.from_user.id}. Error: {error}"
+    errors_logger.error(error_msg)
+    return True
+
+
+async def setup_bot_commands(dispatcher: Dispatcher):
+    """
+    Here we setup bot commands to make them visible in Telegram UI
+    """
+    await bot.set_my_commands([
+        types.BotCommand(command="/id", description="Tell your ID or group's ID"),
+        types.BotCommand(command="/help", description="Help and source code"),
+    ])
 
 
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates=True, on_startup=setup_bot_commands)
