@@ -1,11 +1,15 @@
 import logging
-from os import getenv
+from os import getenv, path, mkdir
 
 en = getenv("ENABLE_STATS", False)
 if not en or en.lower() in ["0", "false", "no"]:
     enabled = False
 else:
     enabled = True
+
+if not path.exists("logs"):
+    mkdir("logs")
+
 
 stats_log_name = "my_id_bot"
 stats_log_level = 21  # One level higher than INFO
