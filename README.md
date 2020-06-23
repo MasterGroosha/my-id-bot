@@ -7,6 +7,7 @@ This is a simple bot written with [aiogram](https://github.com/aiogram/aiogram) 
 * Your user ID (when asked in inline mode or in private chat with any message);  
 * Group/supergroup ID (when added to that group or with /id command);  
 * Channel ID (when message forwarded from channel to one-to-one chat with bot);  
+* Sticker ID (they can be re-used with any bot);
 * Group to supergroup migrate information (both old and new ID).
 
 #### Requirements:
@@ -28,4 +29,5 @@ Now copy that file to `/etc/systemd/system` enable it with `systemctl enable my-
 
 Alternatively, you can use Docker (experimental):  
 Build image: `docker build -t my-id-bot-image .`  
-Run container: `docker run -e BOT_TOKEN=12345:abcxyz -e ENABLE_STATS=0 --name my-id-bot -d --rm my-id-bot-image`
+Run container: `docker run -e BOT_TOKEN=12345:abcxyz -e ENABLE_STATS=0 -v /path/to/logs/on/host:/logs --name my-id-bot -d --rm my-id-bot-image`.  
+Or use Docker Compose as `docker-compose up -d`.
