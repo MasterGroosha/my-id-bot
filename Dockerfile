@@ -1,8 +1,7 @@
 FROM python:3.8-slim-buster
-RUN apt update && apt install -y gcc && rm -rf /var/lib/apt/lists/*
-COPY requirements.txt /requirements.txt
-RUN pip install -r /requirements.txt
-COPY bot.py /bot.py
-COPY logs.py /logs.py
+WORKDIR /app
 RUN mkdir /logs
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
+COPY *.py /app/
 CMD ["python", "bot.py"]
