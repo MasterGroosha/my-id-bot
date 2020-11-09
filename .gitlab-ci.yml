@@ -1,0 +1,3 @@
+include:
+  - project: $CI_CONFIG_PROJECT
+    file: $CI_CONFIG_FILE
