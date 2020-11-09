@@ -194,10 +194,11 @@ async def setup_bot_commands(dispatcher: Dispatcher):
     """
     Here we setup bot commands to make them visible in Telegram UI
     """
-    await bot.set_my_commands([
+    bot_commands = [
         types.BotCommand(command="/id", description="Tell your ID or group's ID"),
-        types.BotCommand(command="/help", description="Help and source code"),
-    ])
+        types.BotCommand(command="/help", description="Help and source code")
+    ]
+    await bot.set_my_commands(bot_commands)
 
 
 if __name__ == "__main__":
