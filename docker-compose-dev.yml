@@ -1,7 +1,10 @@
 version: "3.8"
 services:
     bot:
-        build: .
+        build:
+            context: $BUILD_PATH
+            dockerfile: Dockerfile
+        image: my-id-bot:dev
         container_name: "my-id-bot-dev"
         volumes:
             - "/tmp/my_id_bot_dev_logs:/logs"
