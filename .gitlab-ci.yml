@@ -1,0 +1,3 @@
+include:
+  - project: "groosha/ci_configurations"
+    file: "my-id-bot.yml"
