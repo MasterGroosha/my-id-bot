@@ -114,6 +114,7 @@ async def new_chat(message: types.Message):
             await bot.send_message(message.chat.id,
                                    f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
             logs.track("Added to group")
+            return
 
 
 @dp.message_handler(content_types=["migrate_to_chat_id"])
