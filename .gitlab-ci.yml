@@ -1,3 +1,3 @@
 include:
-  - project: "${CI_CONFIG_PROJECT}"
-    file: "${CI_CONFIG_FILE}"
+  - project: "groosha/ci_configurations"
+    file: "my-id-bot.yml"
