@@ -125,18 +125,9 @@ async def group_upgrade_to(message: types.Message):
     :param message: Telegram message with "migrate_to_chat_id" field not empty
     """
     await bot.send_message(message.migrate_to_chat_id, f"Group upgraded to supergroup.\n"
+                                                       f"Old ID: <code>{message.chat.id}</code>\n"
                                                        f"New ID: <code>{message.migrate_to_chat_id}</code>")
     logs.track("Group migrate")
-
-
-@dp.message_handler(content_types=["migrate_from_chat_id"])
-async def group_upgrade_from(message: types.Message):
-    """
-    When group is upgraded to supergroup, sends previous ID (why not?)
-    :param message: Telegram message with "migrate_from_chat_id" field not empty
-    """
-    await bot.send_message(message.chat.id, f"Group upgraded to supergroup.\n"
-                                            f"Previous ID: <code>{message.migrate_from_chat_id}</code>")
 
 
 @dp.message_handler(lambda message: message.chat.type == "private", content_types=types.ContentTypes.ANY)
