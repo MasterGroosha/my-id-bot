@@ -38,7 +38,10 @@ async def cmd_id(message: types.Message):
     /id command handler for all chats
     :param message: Telegram message with "/id" command
     """
-    await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
+    if message.chat.id == message.from_user.id:
+        await message.answer(f"Your Telegram ID is <code>{message.from_user.id}</code>")
+    else:
+        await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
     logs.track("/id")
 
 
@@ -114,6 +117,7 @@ async def new_chat(message: types.Message):
             await bot.send_message(message.chat.id,
                                    f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
             logs.track("Added to group")
+            return
 
 
 @dp.message_handler(content_types=["migrate_to_chat_id"])
@@ -130,7 +134,7 @@ async def group_upgrade_to(message: types.Message):
     logs.track("Group migrate")
 
 
-@dp.message_handler(lambda message: message.chat.type == "private", content_types=types.ContentTypes.ANY)
+@dp.message_handler(chat_type=types.ChatType.PRIVATE, content_types=types.ContentTypes.ANY)
 async def private_chat(message: types.Message):
     """
     Handler for messages in private chat (one-to-one dialogue)
