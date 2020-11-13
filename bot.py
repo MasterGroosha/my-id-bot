@@ -134,7 +134,7 @@ async def group_upgrade_to(message: types.Message):
     logs.track("Group migrate")
 
 
-@dp.message_handler(lambda message: message.chat.type == "private", content_types=types.ContentTypes.ANY)
+@dp.message_handler(chat_type=types.ChatType.PRIVATE, content_types=types.ContentTypes.ANY)
 async def private_chat(message: types.Message):
     """
     Handler for messages in private chat (one-to-one dialogue)
