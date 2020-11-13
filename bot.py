@@ -38,7 +38,10 @@ async def cmd_id(message: types.Message):
     /id command handler for all chats
     :param message: Telegram message with "/id" command
     """
-    await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
+    if message.chat.id == message.from_user.id:
+        await message.answer(f"Your Telegram ID is <code>{message.from_user.id}</code>")
+    else:
+        await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
     logs.track("/id")
 
 
