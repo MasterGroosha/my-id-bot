@@ -114,8 +114,7 @@ async def new_chat(message: types.Message):
     """
     for user in message.new_chat_members:
         if user.id == bot.id:
-            await bot.send_message(message.chat.id,
-                                   f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
+            await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
             logs.track("Added to group")
             return
 
