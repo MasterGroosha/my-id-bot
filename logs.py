@@ -22,7 +22,7 @@ errors_logger = logging.getLogger(errors_log_name)
 def setup_stats_log():
     logging.addLevelName(stats_log_level, stats_log_name)
     fh = logging.FileHandler(f"logs/{stats_log_name}.log")
-    formatter = logging.Formatter('0.0.0.0 %(asctime)s - %(levelname)s - %(message)s', "%Y-%m-%d %H:%M:%S")
+    formatter = logging.Formatter('%(asctime)s - %(message)s', "%Y-%m-%d %H:%M:%S")
     fh.setFormatter(formatter)
     stats_logger.addHandler(fh)
 
