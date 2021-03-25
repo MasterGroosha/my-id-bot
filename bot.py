@@ -166,12 +166,6 @@ async def inline_message(query: types.InlineQuery):
     logs.track("Inline mode")
 
 
-@dp.errors_handler(exception=BotBlocked)
-async def bot_blocked_exception(update, error):
-    # If bot is blocked, we can't send message, so give up
-    return True
-
-
 @dp.errors_handler(exception=TelegramAPIError)
 async def errors_handler(update, error):
     # Here we collect all available exceptions from Telegram and write them to file
