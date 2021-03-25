@@ -4,7 +4,7 @@ services:
         image: groosha/my-id-bot:latest
         container_name: "my-id-bot"
         volumes:
-            - "/tmp/my_id_bot_logs:/logs"
+            - "/tmp/my_id_bot_logs:/app/logs"
         restart: always
         environment:
             - BOT_TOKEN=12345:abcxyz
