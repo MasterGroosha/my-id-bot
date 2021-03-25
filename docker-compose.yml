@@ -7,5 +7,5 @@ services:
             - "/tmp/my_id_bot_logs:/app/logs"
         restart: always
         environment:
-            - BOT_TOKEN=12345:abcxyz
-            - ENABLE_STATS=0
+            - BOT_TOKEN=${BOT_TOKEN}
+            - ENABLE_STATS=${ENABLE_STATS}

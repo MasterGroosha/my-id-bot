@@ -1,0 +1,3 @@
+# rename this file to .env (with the following dot)
+BOT_TOKEN=12345:abcxyz
+ENABLE_STATS=0
