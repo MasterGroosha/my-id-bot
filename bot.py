@@ -22,7 +22,7 @@ dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
 
-@dp.message_handler(lambda message: message.chat.type == "private", commands="start")
+@dp.message_handler(chat_type=types.ChatType.PRIVATE, commands="start")
 async def cmd_start(message: types.Message):
     """
     /start command handler for private chats
