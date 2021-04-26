@@ -5,6 +5,7 @@ from aiogram.utils.exceptions import BotBlocked, TelegramAPIError
 from os import getenv
 from sys import exit
 import logs
+from filters import IsGroupJoin
 
 
 logs.setup_errors_log()
@@ -19,6 +20,7 @@ if not getenv("BOT_TOKEN"):
 # Initialize bot and dispatcher
 bot = Bot(token=getenv("BOT_TOKEN"), parse_mode="HTML")
 dp = Dispatcher(bot)
+dp.filters_factory.bind(IsGroupJoin, event_handlers=[dp.my_chat_member_handlers])
 logging.basicConfig(level=logging.INFO)
 
 
@@ -104,19 +106,15 @@ async def get_user_id_with_privacy(message: types.Message):
     logs.track("Check user or bot")
 
 
-@dp.message_handler(content_types=["new_chat_members"])
-async def new_chat(message: types.Message):
+@dp.my_chat_member_handler(is_group_join=True)
+async def new_chat(update: types.ChatMemberUpdated):
     """
-    Handler for "new_chat_members" action when bot is added to chat.
-    A special check is performed so that this handler will only be fired once per chat, when
-    bot itself is added to group (bot's ID is the first part of token before ":" symbol)
-    :param message: Telegram message with "new_chat_members" field not empty
+    Handler bot being added to group or supergroup
+    :param update: Update of type ChatMemberUpdated, where old_chat_member.status is "left",
+        new_chat_member.status is "member" and chat.type is either "group" or "supergroup"
     """
-    for user in message.new_chat_members:
-        if user.id == bot.id:
-            await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
-            logs.track("Added to group")
-            return
+    await update.bot.send_message(update.chat.id, f"This {update.chat.type} chat ID is <code>{update.chat.id}</code>")
+    logs.track("Added to group")
 
 
 @dp.message_handler(content_types=["migrate_to_chat_id"])
