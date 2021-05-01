@@ -9,6 +9,6 @@ class IsGroupJoin(BoundFilter):
         self.is_group_join = is_group_join
 
     async def check(self, update: types.ChatMemberUpdated):
-        return update.old_chat_member.status == "left" and \
-               update.new_chat_member.status == "member" and \
+        return update.old_chat_member.status in ("kicked", "left") and \
+               update.new_chat_member.status in ("member", "administrator") and \
                update.chat.type in ("group", "supergroup")
