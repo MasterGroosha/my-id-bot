@@ -1,1 +1,3 @@
-aiogram==2.12.1
+--pre
+aiogram==3.0a17
+cachetools==4.2.4
