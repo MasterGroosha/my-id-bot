@@ -8,6 +8,13 @@ from bot.migration_cache import cache
 
 
 async def bot_added_to_group(event: types.ChatMemberUpdated, bot: Bot):
+    """
+    Bot was added to group.
+
+    :param event: an event from Telegram of type "my_chat_member"
+    :param bot: bot who message was addressed to
+    :return:
+    """
     await sleep(1.0)
     if event.chat.id not in cache.keys():
         await bot.send_message(event.chat.id, f"This {event.chat.type} chat ID is <code>{event.chat.id}</code>")
