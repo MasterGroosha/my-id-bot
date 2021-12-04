@@ -19,7 +19,8 @@ async def cmd_id(message: types.Message):
     if message.chat.id == message.from_user.id:
         await message.answer(f"Your Telegram ID is <code>{message.from_user.id}</code>")
     else:
-        await message.answer(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>")
+        await message.reply(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>\n"
+                            f"Your Telegram ID is <code>{message.from_user.id}</code>")
 
 
 async def cmd_help(message: types.Message):
