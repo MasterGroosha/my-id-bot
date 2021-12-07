@@ -11,16 +11,25 @@ async def cmd_start(message: types.Message):
     await message.answer(f"Your Telegram ID is <code>{message.chat.id}</code>\nHelp and source code: /help")
 
 
-async def cmd_id(message: types.Message):
+async def cmd_id_pm(message: types.Message):
     """
-    /id command handler for all chats
+    /id command handler for private messages
     :param message: Telegram message with "/id" command
     """
-    if message.chat.id == message.from_user.id:
-        await message.answer(f"Your Telegram ID is <code>{message.from_user.id}</code>")
+    await message.answer(f"Your Telegram ID is <code>{message.from_user.id}</code>")
+
+
+async def cmd_id_groups(message: types.Message):
+    """
+    /id command handler for (super)groups
+    :param message: Telegram message with "/id" command
+    """
+    msg = [f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>"]
+    if message.sender_chat is None:
+        msg.append(f"Your Telegram ID is <code>{message.from_user.id}</code>")
     else:
-        await message.reply(f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>\n"
-                            f"Your Telegram ID is <code>{message.from_user.id}</code>")
+        msg.append(f"And you've sent this message as channel with ID <code>{message.sender_chat.id}</code>")
+    await message.reply("\n".join(msg))
 
 
 async def cmd_help(message: types.Message):
@@ -41,5 +50,6 @@ async def cmd_help(message: types.Message):
 
 def register_commands(router: Router):
     router.message.register(cmd_start, Command(commands="start"), chat_type="private")
-    router.message.register(cmd_id, Command(commands="id"))
+    router.message.register(cmd_id_pm, Command(commands="id"), chat_type="private")
+    router.message.register(cmd_id_groups, Command(commands="id"), chat_type=["group", "supergroup"])
     router.message.register(cmd_help, Command(commands="help"))
