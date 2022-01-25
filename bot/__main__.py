@@ -5,6 +5,7 @@ from aiogram.dispatcher.router import Router
 
 from bot.config_reader import Config, load_config
 from bot.handlers.commands import register_commands
+from bot.handlers.pm import register_pm
 from bot.handlers.forwarded_messages import register_forwards
 from bot.handlers.add_or_migrate import register_add_or_migrate
 from bot.handlers.inline_mode import register_inline
@@ -27,6 +28,7 @@ async def main():
 
     # Register handlers
     register_commands(default_router)
+    register_pm(default_router)
     register_forwards(default_router)
     register_add_or_migrate(default_router)
     register_inline(default_router)
