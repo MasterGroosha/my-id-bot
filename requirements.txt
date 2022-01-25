@@ -1,3 +1,3 @@
 --pre
-aiogram==3.0a17
+aiogram==3.0.0b1
 cachetools==4.2.4
