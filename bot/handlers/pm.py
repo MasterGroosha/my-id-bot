@@ -1,4 +1,4 @@
-from aiogram import types
+from aiogram import types, html
 from aiogram.dispatcher.router import Router
 
 
@@ -8,7 +8,7 @@ async def sticker_in_pm(message: types.Message):
     :param message: Telegram message with "/start" command
     """
     await message.reply(
-        f"This sticker ID is\n<code>{message.sticker.file_id}</code>\n"
+        f"This sticker ID is\n{html.code(message.sticker.file_id)}\n"
         f"Stickers is currently the only media type which file_ids can be used by any bot."
     )
 
@@ -18,7 +18,7 @@ async def other_in_pm(message: types.Message):
     /id command handler for private messages
     :param message: Telegram message with "/id" command
     """
-    await message.answer(f"Your Telegram ID is <code>{message.from_user.id}</code>")
+    await message.answer(f"Your Telegram ID is {html.code(message.from_user.id)}")
 
 
 def register_pm(router: Router):

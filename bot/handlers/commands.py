@@ -1,4 +1,4 @@
-from aiogram import types
+from aiogram import types, html
 from aiogram.dispatcher.router import Router
 from aiogram.dispatcher.filters.command import Command
 
@@ -8,7 +8,7 @@ async def cmd_start(message: types.Message):
     /start command handler for private chats
     :param message: Telegram message with "/start" command
     """
-    await message.answer(f"Your Telegram ID is <code>{message.chat.id}</code>\nHelp and source code: /help")
+    await message.answer(f"Your Telegram ID is {html.code(message.chat.id)}\nHelp and source code: /help")
 
 
 async def cmd_id_pm(message: types.Message):
@@ -16,7 +16,7 @@ async def cmd_id_pm(message: types.Message):
     /id command handler for private messages
     :param message: Telegram message with "/id" command
     """
-    await message.answer(f"Your Telegram ID is <code>{message.from_user.id}</code>")
+    await message.answer(f"Your Telegram ID is {html.code(message.from_user.id)}")
 
 
 async def cmd_id_groups(message: types.Message):
@@ -24,11 +24,11 @@ async def cmd_id_groups(message: types.Message):
     /id command handler for (super)groups
     :param message: Telegram message with "/id" command
     """
-    msg = [f"This {message.chat.type} chat ID is <code>{message.chat.id}</code>"]
+    msg = [f"This {message.chat.type} chat ID is {html.code(message.chat.id)}"]
     if message.sender_chat is None:
-        msg.append(f"Your Telegram ID is <code>{message.from_user.id}</code>")
+        msg.append(f"Your Telegram ID is {html.code(message.from_user.id)}")
     else:
-        msg.append(f"And you've sent this message as channel with ID <code>{message.sender_chat.id}</code>")
+        msg.append(f"And you've sent this message as channel with ID {html.code(message.sender_chat.id)}")
     await message.reply("\n".join(msg))
 
 

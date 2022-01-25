@@ -1,6 +1,6 @@
 from asyncio import sleep
 
-from aiogram import types, Bot
+from aiogram import types, Bot, html
 from aiogram.dispatcher.router import Router
 from aiogram.dispatcher.filters.content_types import ContentTypesFilter
 
@@ -17,15 +17,15 @@ async def bot_added_to_group(event: types.ChatMemberUpdated, bot: Bot):
     """
     await sleep(1.0)
     if event.chat.id not in cache.keys():
-        await bot.send_message(event.chat.id, f"This {event.chat.type} chat ID is <code>{event.chat.id}</code>")
+        await bot.send_message(event.chat.id, f"This {event.chat.type} chat ID is {html.code(event.chat.id)}")
 
 
 async def group_to_supegroup_migration(message: types.Message, bot: Bot):
     await bot.send_message(
         message.migrate_to_chat_id,
         f"Group upgraded to supergroup.\n"
-        f"Old ID: <code>{message.chat.id}</code>\n"
-        f"New ID: <code>{message.migrate_to_chat_id}</code>"
+        f"Old ID: {html.code(message.chat.id)}\n"
+        f"New ID: {html.code(message.migrate_to_chat_id)}"
     )
     cache[message.migrate_to_chat_id] = True
 
