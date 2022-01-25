@@ -28,8 +28,8 @@ async def main():
 
     # Register handlers
     register_commands(default_router)
-    register_pm(default_router)
     register_forwards(default_router)
+    register_pm(default_router)
     register_add_or_migrate(default_router)
     register_inline(default_router)
     register_errors(default_router)
