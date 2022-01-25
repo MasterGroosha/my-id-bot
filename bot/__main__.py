@@ -1,5 +1,4 @@
 import asyncio
-import logging
 
 from aiogram import Bot, Dispatcher
 from aiogram.dispatcher.router import Router
@@ -13,8 +12,6 @@ from bot.handlers.errors import register_errors
 from bot.filters.chat_type import ChatTypeFilter
 from bot.filters.added_to_group import IsGroupJoin
 from bot.ui_commands import set_bot_commands
-
-logger = logging.getLogger(__name__)
 
 
 async def main():
