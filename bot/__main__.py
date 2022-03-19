@@ -3,7 +3,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.dispatcher.router import Router
 
-from bot.config_reader import Config, load_config
+from bot.config_reader import config
 from bot.handlers.commands import register_commands
 from bot.handlers.pm import register_pm
 from bot.handlers.forwarded_messages import register_forwards
@@ -16,8 +16,7 @@ from bot.ui_commands import set_bot_commands
 
 
 async def main():
-    config: Config = load_config()
-    bot = Bot(config.bot.token, parse_mode="HTML")
+    bot = Bot(config.bot_token, parse_mode="HTML")
 
     # Define the only router
     default_router = Router()

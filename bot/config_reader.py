@@ -1,20 +1,12 @@
-from dataclasses import dataclass
-from os import getenv
+from pydantic import BaseSettings
 
 
-@dataclass
-class TgBot:
-    token: str
+class Settings(BaseSettings):
+    bot_token: str
+
+    class Config:
+        env_file = '.env'
+        env_file_encoding = 'utf-8'
 
 
-@dataclass
-class Config:
-    bot: TgBot
-
-
-def load_config():
-    return Config(
-        bot=TgBot(
-            token=getenv("BOT_TOKEN"),
-        )
-    )
+config = Settings()
