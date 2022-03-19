@@ -1,7 +1,12 @@
+from aiogram import Router
 from aiogram import types, html
-from aiogram.dispatcher.router import Router
+
+from bot.filters.chat_type import ChatTypeFilter
+
+router = Router()
 
 
+@router.message(ChatTypeFilter(chat_type="private"), content_types="sticker")
 async def sticker_in_pm(message: types.Message):
     """
     /start command handler for private chats
@@ -13,14 +18,10 @@ async def sticker_in_pm(message: types.Message):
     )
 
 
+@router.message(ChatTypeFilter(chat_type="private"))
 async def other_in_pm(message: types.Message):
     """
     /id command handler for private messages
     :param message: Telegram message with "/id" command
     """
     await message.answer(f"Your Telegram ID is {html.code(message.from_user.id)}")
-
-
-def register_pm(router: Router):
-    router.message.register(sticker_in_pm, chat_type="private", content_types="sticker")
-    router.message.register(other_in_pm, chat_type="private")

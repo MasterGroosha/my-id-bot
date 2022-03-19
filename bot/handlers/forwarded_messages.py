@@ -1,8 +1,11 @@
 from aiogram import types, html
-from aiogram.dispatcher.router import Router
+from aiogram import Router
 from magic_filter import F
 
+router = Router()
 
+
+@router.message(F.forward_from_chat)
 async def get_channel_id(message: types.Message):
     """
     Handler for message forwarded from channel to some other chat
@@ -14,6 +17,7 @@ async def get_channel_id(message: types.Message):
     await message.reply(msg)
 
 
+@router.message(F.forward_from)
 async def get_user_id_no_privacy(message: types.Message):
     """
     Handler for message forwarded from other user who doesn't hide their ID
@@ -28,6 +32,7 @@ async def get_user_id_no_privacy(message: types.Message):
     await message.reply(msg)
 
 
+@router.message(F.forward_sender_name)
 async def get_user_id_with_privacy(message: types.Message):
     """
     Handler for message forwarded from other user who hides their ID
@@ -38,9 +43,3 @@ async def get_user_id_with_privacy(message: types.Message):
     if message.sticker:
         msg += f"\n\nAlso this sticker's ID is {html.code(message.sticker.file_id)}"
     await message.reply(msg)
-
-
-def register_forwards(router: Router):
-    router.message.register(get_channel_id, F.forward_from_chat)
-    router.message.register(get_user_id_no_privacy, F.forward_from)
-    router.message.register(get_user_id_with_privacy, F.forward_sender_name)

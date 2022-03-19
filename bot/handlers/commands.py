@@ -1,8 +1,12 @@
+from aiogram import Router
 from aiogram import types, html
-from aiogram.dispatcher.router import Router
-from aiogram.dispatcher.filters.command import Command
+
+from bot.filters.chat_type import ChatTypeFilter
+
+router = Router()
 
 
+@router.message(ChatTypeFilter(chat_type="private"), commands="start")
 async def cmd_start(message: types.Message):
     """
     /start command handler for private chats
@@ -11,6 +15,7 @@ async def cmd_start(message: types.Message):
     await message.answer(f"Your Telegram ID is {html.code(message.chat.id)}\nHelp and source code: /help")
 
 
+@router.message(ChatTypeFilter(chat_type="private"), commands="id")
 async def cmd_id_pm(message: types.Message):
     """
     /id command handler for private messages
@@ -19,6 +24,7 @@ async def cmd_id_pm(message: types.Message):
     await message.answer(f"Your Telegram ID is {html.code(message.from_user.id)}")
 
 
+@router.message(ChatTypeFilter(chat_type=["group", "supergroup"]), commands="id")
 async def cmd_id_groups(message: types.Message):
     """
     /id command handler for (super)groups
@@ -32,6 +38,7 @@ async def cmd_id_groups(message: types.Message):
     await message.reply("\n".join(msg))
 
 
+@router.message(commands="help")
 async def cmd_help(message: types.Message):
     """
     /help command handler for all chats
@@ -46,10 +53,3 @@ async def cmd_help(message: types.Message):
         '• Use inline mode to send your Telegram ID to any chat.\n\n'
         'Source code: https://github.com/MasterGroosha/my-id-bot.'
     )
-
-
-def register_commands(router: Router):
-    router.message.register(cmd_start, Command(commands="start"), chat_type="private")
-    router.message.register(cmd_id_pm, Command(commands="id"), chat_type="private")
-    router.message.register(cmd_id_groups, Command(commands="id"), chat_type=["group", "supergroup"])
-    router.message.register(cmd_help, Command(commands="help"))

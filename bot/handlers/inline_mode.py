@@ -1,7 +1,9 @@
-from aiogram import types, html
-from aiogram.dispatcher.router import Router
+from aiogram import types, html, Router
+
+router = Router()
 
 
+@router.inline_query()
 async def inline_mode_handler(query: types.InlineQuery):
     result = types.InlineQueryResultArticle(
         id=".",
@@ -13,7 +15,3 @@ async def inline_mode_handler(query: types.InlineQuery):
     )
     # Do not forget about is_personal parameter! Otherwise all people will see the same ID
     await query.answer(results=[result], cache_time=3600, is_personal=True)
-
-
-def register_inline(router: Router):
-    router.inline_query.register(inline_mode_handler)
