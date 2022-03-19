@@ -3,8 +3,6 @@ import asyncio
 from aiogram import Bot, Dispatcher
 
 from bot.config_reader import config
-from bot.filters.added_to_group import IsGroupJoin
-from bot.filters.chat_type import ChatTypeFilter
 from bot.handlers import commands, forwarded_messages, pm, add_or_migrate, inline_mode, errors
 from bot.ui_commands import set_bot_commands
 
@@ -14,10 +12,6 @@ async def main():
 
     # Setup dispatcher and bind routers to it
     dp = Dispatcher()
-
-    # Register filters
-    dp.message.bind_filter(ChatTypeFilter)
-    dp.my_chat_member.bind_filter(IsGroupJoin)
 
     # Register handlers
     dp.include_router(commands.router)
