@@ -25,7 +25,10 @@ async def bot_added_to_group(event: types.ChatMemberUpdated, bot: Bot):
     """
     await sleep(1.0)
     if event.chat.id not in cache.keys():
-        await bot.send_message(event.chat.id, f"This {event.chat.type} chat ID is {html.code(event.chat.id)}")
+        await bot.send_message(
+            chat_id=event.chat.id,
+            text=f"This {event.chat.type} chat ID is {html.code(event.chat.id)}"
+        )
 
 
 @router.message(F.migrate_to_chat_id)
