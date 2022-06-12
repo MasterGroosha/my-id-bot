@@ -1,14 +1,20 @@
 from asyncio import sleep
 
-from aiogram import types, Bot, html, Router
+from aiogram import types, Bot, html, Router, F
+from aiogram.dispatcher.filters.chat_member_updated import \
+    ChatMemberUpdatedFilter, JOIN_TRANSITION
 
-from bot.filters.added_to_group import IsGroupJoin
 from bot.migration_cache import cache
 
 router = Router()
 
 
-@router.my_chat_member(IsGroupJoin(is_added_to_group=True))
+@router.my_chat_member(
+    ChatMemberUpdatedFilter(
+        member_status_changed=JOIN_TRANSITION
+    ),
+    F.chat.type.in_({"group", "supergroup"})
+)
 async def bot_added_to_group(event: types.ChatMemberUpdated, bot: Bot):
     """
     Bot was added to group.
@@ -22,7 +28,7 @@ async def bot_added_to_group(event: types.ChatMemberUpdated, bot: Bot):
         await bot.send_message(event.chat.id, f"This {event.chat.type} chat ID is {html.code(event.chat.id)}")
 
 
-@router.message(content_types="migrate_to_chat_id")
+@router.message(F.migrate_to_chat_id)
 async def group_to_supegroup_migration(message: types.Message, bot: Bot):
     await bot.send_message(
         message.migrate_to_chat_id,
