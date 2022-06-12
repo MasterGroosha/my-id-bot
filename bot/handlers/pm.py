@@ -1,12 +1,10 @@
-from aiogram import Router
-from aiogram import types, html
-
-from bot.filters.chat_type import ChatTypeFilter
+from aiogram import Router, types, html, F
 
 router = Router()
+router.message.filter(F.chat.type == "private")
 
 
-@router.message(ChatTypeFilter(chat_type="private"), content_types="sticker")
+@router.message(F.sticker)
 async def sticker_in_pm(message: types.Message):
     """
     /start command handler for private chats
@@ -18,7 +16,7 @@ async def sticker_in_pm(message: types.Message):
     )
 
 
-@router.message(ChatTypeFilter(chat_type="private"))
+@router.message()
 async def other_in_pm(message: types.Message):
     """
     /id command handler for private messages
