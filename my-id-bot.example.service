@@ -1,0 +1,14 @@
+[Unit]
+Description=Telegram My Id Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/user/my-id-bot
+ExecStart=/home/user/my-id-bot/venv/bin/python -m bot
+KillMode=process
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
