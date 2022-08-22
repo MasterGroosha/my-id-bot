@@ -1,1 +1,5 @@
-aiogram==2.12.1
+--pre
+aiogram==3.0.0b2
+cachetools==5.0.0
+python-dotenv==0.19.2
+pydantic~=1.9.0

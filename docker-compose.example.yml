@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+    bot:
+        image: groosha/my-id-bot:latest
+        stop_signal: SIGINT
+        restart: unless-stopped
+        env_file: .env

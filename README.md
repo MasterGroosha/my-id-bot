@@ -1,9 +1,10 @@
 # Bot to get users/chats IDs in Telegram
 
-<a href="https://hub.docker.com/r/groosha/my-id-bot"><img src="https://img.shields.io/badge/my--id--bot-docker%20hub-blue"></a>  
+<a href="https://hub.docker.com/r/groosha/my-id-bot"><img src="https://img.shields.io/badge/my--id--bot-docker%20hub-blue"></a>
+<a href="https://t.me/my_id_bot"><img src="https://img.shields.io/badge/Telegram-@my__id__bot-0c5161"></a>   
 Demo: [@my_id_bot in Telegram](https://t.me/my_id_bot).  
 
-This is a simple bot written with [aiogram](https://github.com/aiogram/aiogram) framework to show some IDs, like:
+This is a simple bot written with [aiogram 3.x](https://github.com/aiogram/aiogram) framework to show some IDs, like:
 
 * Your user ID (when asked in inline mode or in private chat with any message);  
 * Group/supergroup ID (when added to that group or with /id command);  
@@ -11,24 +12,31 @@ This is a simple bot written with [aiogram](https://github.com/aiogram/aiogram) 
 * Sticker ID (they can be re-used with any bot);
 * Group to supergroup migrate information (both old and new ID).
 
-#### Requirements:
-* Python 3.7 and above;  
+## Requirements:
+* Python 3.9 and newer;  
 * Linux (should work on Windows, but not tested);   
-* Systemd init system (not necessary).  
-* Docker (optional, see below).
+* Systemd init system (optional).  
+* Docker (optional).
 
-#### Installation:  
-1. Create a directory for bot: `mkdir my-id-bot`;  
-2. `cd my-id-bot && python3 -m venv venv`;  
-3. Put `bot.py` file to `my-id-bot` directory;  
-4. `source venv/bin/python && pip install -r requirements.txt`;  
-5. `chmod +x bot.py`;  
-6. `BOT_TOKEN=12345:abcxyz ENABLE_STATS=0 ./bot.py`
+## Installation:
 
-If you want systemd support for autostart and other tasks: open `my-id-bot.service` file, change relevant options to match yours, enter correct token.  
-Now copy that file to `/etc/systemd/system` enable it with `systemctl enable my-id-bot.service` and run it: `systemctl restart my-id-bot.service`. Easy!
+### Just to test (not recommended)
+1. Clone this repo;
+2. `cd` to cloned directory and initialize Python virtual environment (venv);
+3. Activate the venv and install all dependencies from `requirements.txt` file;
+4. Copy `env_example` to `.env` (with the leading dot), open `.env` and edit the variables;
+5. In the activated venv: `python -m bot`
 
-Alternatively, you can use Docker (experimental):  
-Build image: `docker build -t my-id-bot-image .`  
-Run container: `docker run -e BOT_TOKEN=12345:abcxyz -e ENABLE_STATS=0 -v /path/to/logs/on/host:/logs --name my-id-bot -d --rm my-id-bot-image`.  
-Or use Docker Compose as `docker-compose up -d`.
+### Systemd 
+1. Perform steps 1-4 from "just to test" option above;
+2. Copy `my-id-bot.example.service` to `my-id-bot.service` (or whatever your prefer), open it and edit `WorkingDirectory` 
+and `ExecStart` directives;
+3. Copy (or symlink) that service file to `/etc/systemd/system/` directory;
+4. Enable your service `sudo systemctl enable my-id-bot --now`;
+5. Check that service is running: `systemctcl status my-id-bot` (can be used without root privileges).
+
+### Docker + Docker Compose
+1. Get `docker-compose.example.yml` file and rename it as `docker-compose.yml`;
+2. Get `env_example` file, rename it as `.env` (with the leading dot), open it and edit the variables;
+3. Run the bot: `docker compose up -d`;
+4. Check that container is up and running: `docker compose ps`

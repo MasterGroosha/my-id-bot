@@ -1,10 +1,15 @@
-FROM python:3.8-slim-buster
-WORKDIR /app
-RUN mkdir /app/logs
-COPY start.sh /app/
-RUN chmod +x /app/start.sh
-COPY requirements.txt /app/requirements.txt
+# Separate "build" image
+FROM python:3.9-slim-buster as compile-image
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r /app/requirements.txt
-COPY *.py /app/
-CMD ["/app/start.sh"]
+ && pip install --no-cache-dir -r requirements.txt
+
+# "Run" image
+FROM python:3.9-slim-buster
+COPY --from=compile-image /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+WORKDIR /app
+COPY bot /app/bot
+CMD ["python", "-m", "bot"]
