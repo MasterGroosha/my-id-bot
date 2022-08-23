@@ -44,6 +44,7 @@ async def cmd_help(message: types.Message):
     await message.answer(
         'Use this bot to get ID for different entities across Telegram:\n'
         '• Forward message from channel to get channel ID;\n'
+        '• Forward message from anonymous supergroup admin to get supergroup ID;\n'
         '• Forward message from user to get their ID (unless they restrict from doing so);\n'
         '• Send a sticker to get its file_id (currently you can use the sticker\'s file_id with any bot);\n'
         '• Add bot to group to get its ID (it will even tell you when you migrate from group to supergroup);\n'

@@ -9,6 +9,7 @@ This is a simple bot written with [aiogram 3.x](https://github.com/aiogram/aiogr
 * Your user ID (when asked in inline mode or in private chat with any message);  
 * Group/supergroup ID (when added to that group or with /id command);  
 * Channel ID (when message forwarded from channel to one-to-one chat with bot);  
+* Supergroup ID (when message forwarded from anonymous group admin);  
 * Sticker ID (they can be re-used with any bot);
 * Group to supergroup migrate information (both old and new ID).
 
