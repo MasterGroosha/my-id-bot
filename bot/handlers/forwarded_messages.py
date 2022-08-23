@@ -1,17 +1,20 @@
-from aiogram import types, html
-from aiogram import Router
-from magic_filter import F
-
-router = Router()
+from aiogram import types, html, Router, F
 
 
-@router.message(F.forward_from_chat)
-async def get_channel_id(message: types.Message):
+router = Router(F.chat.type == "private")
+
+
+@router.message(F.forward_from_chat.type.as_("chat_type"))
+async def get_channel_or_supergroup_id(message: types.Message, chat_type: str):
     """
-    Handler for message forwarded from channel to some other chat
+    Handler for message forwarded from channel
+    or from anonymous admin writing on behalf
+    of a supergroup
+
     :param message: Telegram message with "forward_from_chat" field not empty
+    :param chat_type: parsed chat_type ("channel" or "supergroup")
     """
-    msg = f"This channel's ID is {html.code(message.forward_from_chat.id)}"
+    msg = f"This {chat_type}'s ID is {html.code(message.forward_from_chat.id)}"
     if message.sticker:
         msg += f"\nAlso this sticker's ID is {html.code(message.sticker.file_id)}"
     await message.reply(msg)
