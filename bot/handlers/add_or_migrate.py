@@ -32,7 +32,7 @@ async def bot_added_to_group(event: types.ChatMemberUpdated, bot: Bot):
 
 
 @router.message(F.migrate_to_chat_id)
-async def group_to_supegroup_migration(message: types.Message, bot: Bot):
+async def group_to_supergroup_migration(message: types.Message, bot: Bot):
     await bot.send_message(
         message.migrate_to_chat_id,
         f"Group upgraded to supergroup.\n"
