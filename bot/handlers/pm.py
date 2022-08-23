@@ -26,10 +26,8 @@ async def get_user_id_no_privacy(message: types.Message):
     Handler for message forwarded from other user who doesn't hide their ID
     :param message: Telegram message with "forward_from" field not empty
     """
-    if message.forward_from.is_bot:
-        msg = f"This bot's ID is {html.code(message.forward_from.id)}"
-    else:
-        msg = f"This user's ID is {html.code(message.forward_from.id)}"
+    account_type = "bot" if message.forward_from.is_bot else "user"
+    msg = f"This {account_type}'s ID is {html.code(message.forward_from.id)}"
     if message.sticker:
         msg += f"\nAlso this sticker's ID is {html.code(message.sticker.file_id)}"
     await message.reply(msg)
