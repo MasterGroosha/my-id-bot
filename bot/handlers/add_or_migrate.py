@@ -1,7 +1,7 @@
 from asyncio import sleep
 
 from aiogram import types, Bot, html, Router, F
-from aiogram.dispatcher.filters.chat_member_updated import \
+from aiogram.filters.chat_member_updated import \
     ChatMemberUpdatedFilter, JOIN_TRANSITION
 
 from bot.migration_cache import cache
