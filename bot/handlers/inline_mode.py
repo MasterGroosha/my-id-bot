@@ -13,5 +13,8 @@ async def inline_mode_handler(query: types.InlineQuery):
             message_text=f"My Telegram ID is {html.code(query.from_user.id)}"
         )
     )
-    # Do not forget about is_personal parameter! Otherwise all people will see the same ID
-    await query.answer(results=[result], cache_time=3600, is_personal=True)
+    # Do not forget about is_personal parameter! Otherwise, all people will see the same ID
+    await query.answer(
+        results=[result], cache_time=3600, is_personal=True,
+        switch_pm_parameter="1", switch_pm_text="Or try me in PM >>>"
+    )
