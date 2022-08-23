@@ -1,7 +1,8 @@
 from aiogram import types, html, Router, F
 
 
-router = Router(F.chat.type == "private")
+router = Router()
+router.message.filter(F.chat.type == "private")
 
 
 @router.message(F.forward_from_chat.type.as_("chat_type"))
