@@ -3,7 +3,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 
 from bot.config_reader import config
-from bot.handlers import commands, forwarded_messages, pm, add_or_migrate, inline_mode, errors
+from bot.handlers import commands, pm, add_or_migrate, inline_mode, errors
 from bot.ui_commands import set_bot_commands
 
 
@@ -15,7 +15,6 @@ async def main():
 
     # Register handlers
     dp.include_router(commands.router)
-    dp.include_router(forwarded_messages.router)
     dp.include_router(pm.router)
     dp.include_router(add_or_migrate.router)
     dp.include_router(inline_mode.router)
