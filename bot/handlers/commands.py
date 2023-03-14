@@ -1,9 +1,11 @@
 from aiogram import Router, types, html, F
+from aiogram.enums import ChatType
+from aiogram.filters import Command, CommandStart
 
 router = Router()
 
 
-@router.message(F.chat.type == "private", commands="start")
+@router.message(F.chat.type == ChatType.PRIVATE, CommandStart())
 async def cmd_start(message: types.Message):
     """
     /start command handler for private chats
@@ -12,7 +14,7 @@ async def cmd_start(message: types.Message):
     await message.answer(f"Your Telegram ID is {html.code(message.chat.id)}\nHelp and source code: /help")
 
 
-@router.message(F.chat.type == "private", commands="id")
+@router.message(F.chat.type == ChatType.PRIVATE, Command("id"))
 async def cmd_id_pm(message: types.Message):
     """
     /id command handler for private messages
@@ -21,7 +23,7 @@ async def cmd_id_pm(message: types.Message):
     await message.answer(f"Your Telegram ID is {html.code(message.from_user.id)}")
 
 
-@router.message(F.chat.type.in_({"group", "supergroup"}), commands="id")
+@router.message(F.chat.type.in_({ChatType.GROUP, ChatType.SUPERGROUP}), Command("id"))
 async def cmd_id_groups(message: types.Message):
     """
     /id command handler for (super)groups
@@ -35,7 +37,7 @@ async def cmd_id_groups(message: types.Message):
     await message.reply("\n".join(msg))
 
 
-@router.message(commands="help")
+@router.message(Command("help"))
 async def cmd_help(message: types.Message):
     """
     /help command handler for all chats
