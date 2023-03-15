@@ -30,10 +30,15 @@ async def cmd_id_groups(message: types.Message):
     :param message: Telegram message with "/id" command
     """
     msg = [f"This {message.chat.type} chat ID is {html.code(message.chat.id)}"]
+
+    if message.is_topic_message:
+        msg.append(f"This forum topic ID is {html.code(message.message_thread_id)}")
+
     if message.sender_chat is None:
         msg.append(f"Your Telegram ID is {html.code(message.from_user.id)}")
     else:
         msg.append(f"And you've sent this message as channel with ID {html.code(message.sender_chat.id)}")
+
     await message.reply("\n".join(msg))
 
 
