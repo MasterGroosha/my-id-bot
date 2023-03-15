@@ -1,4 +1,5 @@
 from aiogram import types, html, Router
+from aiogram.enums import ChatType
 
 router = Router()
 
@@ -14,7 +15,8 @@ async def inline_mode_handler(query: types.InlineQuery):
         )
     )
     # Do not forget about is_personal parameter! Otherwise, all people will see the same ID
+    switch_pm_text = "Or try me in PM >>>" if query.chat_type != ChatType.SENDER else None
     await query.answer(
         results=[result], cache_time=3600, is_personal=True,
-        switch_pm_parameter="1", switch_pm_text="Or try me in PM >>>"
+        switch_pm_parameter="1", switch_pm_text=switch_pm_text
     )
