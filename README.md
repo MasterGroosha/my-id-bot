@@ -2,7 +2,7 @@
 
 <a href="https://hub.docker.com/r/groosha/my-id-bot"><img src="https://img.shields.io/badge/my--id--bot-docker%20hub-blue"></a>
 <a href="https://t.me/my_id_bot"><img src="https://img.shields.io/badge/Telegram-@my__id__bot-0c5161"></a>   
-Demo: [@my_id_bot in Telegram](https://t.me/my_id_bot).  
+Give it a try: [@my_id_bot](https://t.me/my_id_bot).  
 
 This is a simple bot written with [aiogram 3.x](https://github.com/aiogram/aiogram) framework to show some IDs, like:
 
@@ -10,6 +10,7 @@ This is a simple bot written with [aiogram 3.x](https://github.com/aiogram/aiogr
 * Group/supergroup ID (when added to that group or with /id command);  
 * Channel ID (when message forwarded from channel to one-to-one chat with bot);  
 * Supergroup ID (when message forwarded from anonymous group admin);  
+* Topic ID for [forum supergroups](https://telegram.org/blog/topics-in-groups-collectible-usernames#topics-in-groups);  
 * Sticker ID (they can be re-used with any bot);
 * Group to supergroup migrate information (both old and new ID).
 
