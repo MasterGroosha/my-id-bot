@@ -2,6 +2,8 @@ version: "3.8"
 services:
     bot:
         image: groosha/my-id-bot:latest
-        stop_signal: SIGINT
         restart: unless-stopped
         env_file: .env
+        # uncomment and set your paths if you want to redefine EN locale
+#        volumes:
+#            -  "./locales:/app/bot/locales"
