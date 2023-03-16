@@ -1,6 +1,7 @@
 from asyncio import sleep
 
 from aiogram import types, Bot, html, Router, F
+from aiogram.enums import ChatType
 from aiogram.filters.chat_member_updated import \
     ChatMemberUpdatedFilter, JOIN_TRANSITION
 
@@ -13,7 +14,7 @@ router = Router()
     ChatMemberUpdatedFilter(
         member_status_changed=JOIN_TRANSITION
     ),
-    F.chat.type.in_({"group", "supergroup"})
+    F.chat.type.in_({ChatType.GROUP, ChatType.SUPERGROUP})
 )
 async def bot_added_to_group(event: types.ChatMemberUpdated, bot: Bot):
     """

@@ -1,7 +1,8 @@
 from aiogram import Router, types, html, F
+from aiogram.enums import ChatType
 
 router = Router()
-router.message.filter(F.chat.type == "private")
+router.message.filter(F.chat.type == ChatType.PRIVATE)
 
 
 @router.message(F.forward_from_chat.type.as_("chat_type"))
