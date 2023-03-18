@@ -16,8 +16,8 @@ async def get_channel_or_supergroup_id(message: types.Message, chat_type: str, l
     :param chat_type: parsed chat_type ("channel" or "supergroup")
     :param l10n: Fluent localization object
     """
-    #
-    msg = l10n.format_value(msg_id="any-chat", args={"type": chat_type, "id": html.code(message.forward_from_chat.id)})
+    chat_type_str = l10n.format_value(msg_id=chat_type)
+    msg = l10n.format_value(msg_id="any-chat", args={"type": chat_type_str, "id": html.code(message.forward_from_chat.id)})
     if message.sticker:
         msg += "\n" + l10n.format_value(msg_id="sticker-id", args={"id": html.code(message.sticker.file_id)})
     await message.reply(msg)
@@ -31,7 +31,8 @@ async def get_user_id_no_privacy(message: types.Message, l10n: FluentLocalizatio
     :param l10n: Fluent localization object
     """
     account_type = "bot" if message.forward_from.is_bot else "user"
-    msg = l10n.format_value(msg_id="any-chat", args={"type": account_type, "id": html.code(message.forward_from.id)})
+    chat_type_str = l10n.format_value(msg_id=account_type)
+    msg = l10n.format_value(msg_id="any-chat", args={"type": chat_type_str, "id": html.code(message.forward_from.id)})
     if message.sticker:
         msg += "\n" + l10n.format_value(msg_id="sticker-id", args={"id": html.code(message.sticker.file_id)})
     await message.reply(msg)

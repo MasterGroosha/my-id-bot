@@ -37,7 +37,8 @@ async def cmd_id_groups(message: types.Message, l10n: FluentLocalization):
     :param message: Telegram message with "/id" command
     :param l10n: Fluent localization object
     """
-    msg = [l10n.format_value(msg_id="any-chat", args={"type": message.chat.type, "id": html.code(message.chat.id)})]
+    chat_type_str = l10n.format_value(msg_id=message.chat.type)
+    msg = [l10n.format_value(msg_id="any-chat", args={"type": chat_type_str, "id": html.code(message.chat.id)})]
 
     if message.is_topic_message:
         msg.append(

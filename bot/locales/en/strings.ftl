@@ -2,6 +2,13 @@ cmd-start =
     Your Telegram ID is { $id }
     Help and source code: /help
 
+# Used in strings like "This channel id is xxx"
+supergroup = supergroup
+group = group
+channel = channel
+user = user
+bot = bot
+
 any-chat = This { $type } ID is { $id }
 
 cmd-id-pm = Your Telegram ID is { $id }
