@@ -28,8 +28,12 @@ class FluentDispenser:
                 self.languages[name] = FluentLocalization([name, self.__default_language], ftl_files_list, self.__loader)
 
     @property
-    def default_locale(self):
+    def default_locale(self) -> FluentLocalization:
         return self.languages[self.__default_language]
+
+    @property
+    def available_languages(self) -> list[str]:
+        return list(self.languages.keys())
 
     def get_language(self, language_code: str):
         return self.languages.get(language_code, self.__default_language)

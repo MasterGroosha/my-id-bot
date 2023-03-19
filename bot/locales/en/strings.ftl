@@ -54,3 +54,8 @@ sticker-id-extended =
 user-id-hidden =
     This user decided to <b>hide</b> their ID.
     Learn more about this feature <a href="https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding">here</a>.
+
+# Commands in UI (when you press "/" or "Menu" button)
+cmd-hint-id-pm = Print your Telegram ID
+cmd-hint-id-group = Print Telegram ID of this group chat
+cmd-hint-help = Help and source code

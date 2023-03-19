@@ -55,3 +55,8 @@ sticker-id-extended =
 user-id-hidden =
     Этот пользователь <b>скрыл</b> свой айди при пересылке.
     <a href="https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding">Подробнее об этой фиче</a>.
+
+# Commands in UI (when you press "/" or "Menu" button)
+cmd-hint-id-pm = Узнать свой ID
+cmd-hint-id-group = Узнать ID этой группы
+cmd-hint-help = Справка и исходники

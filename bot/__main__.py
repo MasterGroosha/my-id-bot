@@ -30,7 +30,7 @@ async def main():
     dp.include_router(errors.router)
 
     # Set bot commands in UI
-    await set_bot_commands(bot)
+    await set_bot_commands(bot, dispenser)
 
     # Run bot
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
