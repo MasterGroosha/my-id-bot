@@ -4,6 +4,6 @@ services:
         image: groosha/my-id-bot:latest
         restart: unless-stopped
         env_file: .env
-        # uncomment and set your paths if you want to redefine EN locale
+        # uncomment and set your paths if you want to use your own locales
 #        volumes:
 #            -  "./locales:/app/bot/locales"
