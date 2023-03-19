@@ -31,7 +31,14 @@ async def cmd_id_pm(message: types.Message, l10n: FluentLocalization):
     )
 
 
-@router.message(F.chat.type.in_({ChatType.GROUP, ChatType.SUPERGROUP}), Command("id"))
+@router.message(
+    F.chat.type.in_({ChatType.GROUP, ChatType.SUPERGROUP}),
+    Command("id")
+)
+@router.message(
+    F.chat.type.in_({ChatType.GROUP, ChatType.SUPERGROUP}),
+    CommandStart(deep_link=True, magic=F.args == "id")
+)
 async def cmd_id_groups(message: types.Message, l10n: FluentLocalization):
     """
     /id command handler for (super)groups
@@ -64,4 +71,4 @@ async def cmd_help(message: types.Message, l10n: FluentLocalization):
     :param message: Telegram message with "/help" command
     :param l10n: Fluent localization object
     """
-    await message.answer(l10n.format_value(msg_id="cmd-help"))
+    await message.answer(l10n.format_value(msg_id="cmd-help"), disable_web_page_preview=True)

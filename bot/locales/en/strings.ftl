@@ -1,3 +1,11 @@
+# without @ !
+bot-username = my_id_bot
+
+# do not translate!
+bot-group-deeplink = https://t.me/{bot-username}?startgroup=id
+
+source-code-link = https://github.com/MasterGroosha/my-id-bot
+
 cmd-start =
     Your Telegram ID is { $id }
     Help and source code: /help
@@ -15,7 +23,6 @@ cmd-id-pm = Your Telegram ID is { $id }
 cmd-id-group-topic-id = This forum topic ID is { $id }
 cmd-id-group-as-channel = And you've sent this message as channel with ID { $id }
 
-source-code-link = https://github.com/MasterGroosha/my-id-bot
 cmd-help =
     Use this bot to get ID for different entities across Telegram:
 
@@ -23,7 +30,7 @@ cmd-help =
     • Forward message from anonymous supergroup admin to get supergroup ID;
     • Forward message from user to get their ID (unless they restrict from doing so);
     • Send a sticker to get its file_id (currently you can use the sticker's file_id with any bot);
-    • Add bot to group to get its ID (it will even tell you when you migrate from group to supergroup);
+    • <a href="{bot-group-deeplink}">Add bot to group</a> to get its ID (it will even tell you when you migrate from group to supergroup);
     • Use inline mode to send your Telegram ID to any chat.
 
     Source code: { source-code-link }
