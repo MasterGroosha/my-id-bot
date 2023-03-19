@@ -2,25 +2,25 @@ import asyncio
 from pathlib import Path
 
 from aiogram import Bot, Dispatcher
-from fluent.runtime import FluentLocalization, FluentResourceLoader
 
 from bot.config_reader import config
+from bot.fluent_helper import FluentDispenser
 from bot.handlers import commands, pm, add_or_migrate, inline_mode, errors
+from bot.middlewares import L10nMiddleware
 from bot.ui_commands import set_bot_commands
 
 
 async def main():
-    # Get path to /locales/ dir relative to current file
-    locales_dir = Path(__file__).parent.joinpath("locales")
-    # Creating Fluent objects
-    # FluentResourceLoader uses curly braces, so we cannot use f-strings here
-    l10n_loader = FluentResourceLoader(str(locales_dir) + "/{locale}")
-    l10n = FluentLocalization(["en"], ["strings.ftl"], l10n_loader)
-
     bot = Bot(config.bot_token, parse_mode="HTML")
 
     # Setup dispatcher and bind routers to it
-    dp = Dispatcher(l10n=l10n)
+    dp = Dispatcher()
+
+    dispenser = FluentDispenser(
+        locales_dir=Path(__file__).parent.joinpath("locales"),
+        default_language="en"
+    )
+    dp.update.middleware(L10nMiddleware(dispenser))
 
     # Register handlers
     dp.include_router(commands.router)
