@@ -4,6 +4,7 @@ from aiogram.filters import Command, CommandStart
 from fluent.runtime import FluentLocalization
 
 router = Router()
+router.message.filter(~F.forward_from & ~F.forward_from_chat)
 
 
 @router.message(F.chat.type == ChatType.PRIVATE, CommandStart())
