@@ -36,4 +36,4 @@ class FluentDispenser:
         return list(self.languages.keys())
 
     def get_language(self, language_code: str):
-        return self.languages.get(language_code, self.__default_language)
+        return self.languages.get(language_code, self.default_locale)
