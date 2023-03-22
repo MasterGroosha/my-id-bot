@@ -3,7 +3,7 @@ import logging
 import structlog
 from structlog import PrintLoggerFactory
 
-from config_reader import ModeEnum
+from bot.config_reader import ModeEnum
 
 
 def get_structlog_config(mode: ModeEnum) -> dict:
