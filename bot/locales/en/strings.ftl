@@ -10,6 +10,12 @@ cmd-start =
     Your Telegram ID is { $id }
     Help and source code: /help
 
+    You can also use this bot in inline mode to share its ID! Try using one of the buttons below.
+    Please note, that bot uses your language in PM and English in any other chats.
+
+cmd-start-inline-try-here = Try here
+cmd-start-inline-try-other = Try in other chat
+
 # Used in strings like "This channel id is xxx"
 supergroup = supergroup
 group = group

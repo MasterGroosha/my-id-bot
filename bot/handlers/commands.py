@@ -1,6 +1,7 @@
 from aiogram import Router, types, html, F
 from aiogram.enums import ChatType
 from aiogram.filters import Command, CommandStart
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 from fluent.runtime import FluentLocalization
 
 router = Router()
@@ -14,8 +15,13 @@ async def cmd_start(message: types.Message, l10n: FluentLocalization):
     :param message: Telegram message with "/start" command
     :param l10n: Fluent localization object
     """
+
+    builder = InlineKeyboardBuilder()
+    builder.button(text=l10n.format_value("cmd-start-inline-try-here"), switch_inline_query_current_chat="")
+    builder.button(text=l10n.format_value("cmd-start-inline-try-other"), switch_inline_query="")
     await message.answer(
-        l10n.format_value(msg_id="cmd-start", args={"id": html.code(message.chat.id)})
+        l10n.format_value(msg_id="cmd-start", args={"id": html.code(message.chat.id)}),
+        reply_markup=builder.adjust(1).as_markup()
     )
 
 
