@@ -2,4 +2,5 @@ aiogram==3.0.0b7
 cachetools==5.3.0
 python-dotenv==1.0.0
 pydantic==1.10.6
-fluent.runtime==0.3.1
+fluent.runtime==0.4.0
+structlog==22.3.0

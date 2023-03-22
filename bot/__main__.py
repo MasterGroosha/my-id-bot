@@ -1,17 +1,24 @@
 import asyncio
 from pathlib import Path
 
+import structlog
 from aiogram import Bot, Dispatcher
+from structlog.typing import FilteringBoundLogger
 
 from bot.config_reader import config
 from bot.fluent_helper import FluentDispenser
 from bot.handlers import commands, pm, add_or_migrate, inline_mode, errors
+from bot.logs import get_structlog_config
 from bot.middlewares import L10nMiddleware
 from bot.ui_commands import set_bot_commands
 
+logger: FilteringBoundLogger = structlog.get_logger()
+
 
 async def main():
-    bot = Bot(config.bot_token, parse_mode="HTML")
+    structlog.configure(**get_structlog_config(config.mode))
+
+    bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
 
     # Setup dispatcher and bind routers to it
     dp = Dispatcher()
@@ -33,7 +40,9 @@ async def main():
     await set_bot_commands(bot, dispenser)
 
     # Run bot
+    logger.warning("Starting bot")
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
+    logger.warning("Bot stopped")
 
 
 if __name__ == "__main__":
