@@ -11,7 +11,7 @@ from bot.ui_commands import set_bot_commands
 
 
 async def main():
-    bot = Bot(config.bot_token, parse_mode="HTML")
+    bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
 
     # Setup dispatcher and bind routers to it
     dp = Dispatcher()
