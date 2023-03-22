@@ -1,9 +1,10 @@
 from asyncio import sleep
 
-from aiogram import types, Bot, html, Router, F
+from aiogram import Bot, html, Router, F
 from aiogram.enums import ChatType
 from aiogram.filters.chat_member_updated import \
     ChatMemberUpdatedFilter, JOIN_TRANSITION
+from aiogram.types import ChatMemberUpdated, Message
 from fluent.runtime import FluentLocalization
 
 from bot.migration_cache import cache
@@ -17,7 +18,7 @@ router = Router()
     ),
     F.chat.type.in_({ChatType.GROUP, ChatType.SUPERGROUP})
 )
-async def bot_added_to_group(event: types.ChatMemberUpdated, bot: Bot, l10n: FluentLocalization):
+async def bot_added_to_group(event: ChatMemberUpdated, bot: Bot, l10n: FluentLocalization):
     """
     Bot was added to group.
 
@@ -31,18 +32,18 @@ async def bot_added_to_group(event: types.ChatMemberUpdated, bot: Bot, l10n: Flu
         await bot.send_message(
             chat_id=event.chat.id,
             text=l10n.format_value(
-                msg_id="any-chat",
+                "any-chat",
                 args={"type": event.chat.type, "id": html.code(event.chat.id)}
             )
         )
 
 
 @router.message(F.migrate_to_chat_id)
-async def group_to_supergroup_migration(message: types.Message, bot: Bot, l10n: FluentLocalization):
+async def group_to_supergroup_migration(message: Message, bot: Bot, l10n: FluentLocalization):
     await bot.send_message(
         message.migrate_to_chat_id,
         l10n.format_value(
-            msg_id="group-to-supergroup",
+            "group-to-supergroup",
             args={"old_id": html.code(message.chat.id), "new_id": html.code(message.migrate_to_chat_id)}
         )
     )
