@@ -1,5 +1,8 @@
 from aiogram import Router, types, html, F
 from aiogram.enums import ChatType
+
+from aiogram.filters import MagicData
+
 from fluent.runtime import FluentLocalization
 
 router = Router()
@@ -64,11 +67,24 @@ async def sticker_in_pm(message: types.Message, l10n: FluentLocalization):
     )
 
 
-@router.message()
+@router.message(F.via_bot, MagicData(F.event.via_bot.id != F.bot.id))  # noqa
+async def other_inline_bot_in_pm(message: types.Message, l10n: FluentLocalization):
+    """
+    Message via some other inline bot in PM
+    :param message: Any Telegram message
+    :param l10n: Fluent localization object
+    """
+    bot_str = l10n.format_value(msg_id="bot")
+    await message.answer(
+        l10n.format_value(msg_id="any-chat", args={"type": bot_str, "id": html.code(message.via_bot.id)})
+    )
+
+
+@router.message(~F.via_bot)
 async def other_in_pm(message: types.Message, l10n: FluentLocalization):
     """
-    /id command handler for private messages
-    :param message: Telegram message with "/id" command
+    Any other message in PM, not via inline bot
+    :param message: Any Telegram message
     :param l10n: Fluent localization object
     """
     await message.answer(l10n.format_value(msg_id="cmd-id-pm", args={"id": html.code(message.from_user.id)}))

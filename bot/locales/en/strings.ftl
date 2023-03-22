@@ -10,6 +10,12 @@ cmd-start =
     Your Telegram ID is { $id }
     Help and source code: /help
 
+    You can also use this bot in inline mode to share its ID! Try using one of the buttons below.
+    Please note, that bot uses your language in PM and English in any other chats.
+
+cmd-start-inline-try-here = Try here
+cmd-start-inline-try-other = Try in other chat
+
 # Used in strings like "This channel id is xxx"
 supergroup = supergroup
 group = group
@@ -29,6 +35,7 @@ cmd-help =
     • Forward message from channel to get channel ID;
     • Forward message from anonymous supergroup admin to get supergroup ID;
     • Forward message from user to get their ID (unless they restrict from doing so);
+    • Forward message from some other bot or use it via inline mode to get bot ID;
     • Send a sticker to get its file_id (currently you can use the sticker's file_id with any bot);
     • <a href="{bot-group-deeplink}">Add bot to group</a> to get its ID (it will even tell you when you migrate from group to supergroup);
     • Use inline mode to send your Telegram ID to any chat.
