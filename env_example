@@ -1,2 +1,6 @@
 # rename this file to .env (with the following dot)
 BOT_TOKEN=12345:abcxyz
+
+# Switch to dev to allow logs from DEBUG/INFO levels
+# In dev mode, local time is used instead of UTC
+MODE=prod
