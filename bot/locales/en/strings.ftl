@@ -29,6 +29,7 @@ cmd-help =
     • Forward message from channel to get channel ID;
     • Forward message from anonymous supergroup admin to get supergroup ID;
     • Forward message from user to get their ID (unless they restrict from doing so);
+    • Forward message from some other bot or use it via inline mode to get bot ID;
     • Send a sticker to get its file_id (currently you can use the sticker's file_id with any bot);
     • <a href="{bot-group-deeplink}">Add bot to group</a> to get its ID (it will even tell you when you migrate from group to supergroup);
     • Use inline mode to send your Telegram ID to any chat.
