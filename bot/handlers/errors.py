@@ -21,6 +21,6 @@ async def handle_errors(event: ErrorEvent):
         "Outgoing bot message error",
         exception_type=event.exception.__class__.__name__,
         message=error_message,
-        update=event.update,
+        update=event.update.json(),
         error_source=error_source
     )
