@@ -63,6 +63,6 @@ user-id-hidden =
     <a href="https://telegram.org/blog/unsend-privacy-emoji#anonymous-forwarding">Детальніше про цю фічу</a>.
 
 # Commands in UI (when you press "/" or "Menu" button)
-cmd-hint-id-pm = дізнатись свій ID
-cmd-hint-id-group = дізнатись ID цієї групи
+cmd-hint-id-pm = Дізнатись свій ID
+cmd-hint-id-group = Дізнатись ID цієї групи
 cmd-hint-help = Допомога ти вихідний код
