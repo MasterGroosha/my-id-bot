@@ -33,11 +33,13 @@ async def main():
         dp.update.outer_middleware(UnhandledUpdatesLoggerMiddleware())
 
     # Register handlers
-    dp.include_router(commands.router)
-    dp.include_router(pm.router)
-    dp.include_router(add_or_migrate.router)
-    dp.include_router(inline_mode.router)
-    dp.include_router(errors.router)
+    dp.include_routers(
+        commands.router,
+        pm.router,
+        add_or_migrate.router,
+        inline_mode.router,
+        errors.router
+    )
 
     # Set bot commands in UI
     await set_bot_commands(bot, dispenser)
