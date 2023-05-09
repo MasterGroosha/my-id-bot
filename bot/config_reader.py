@@ -18,6 +18,7 @@ class LoggingSettings(BaseSettings):
     format: str = "%Y-%m-%d %H:%M:%S"
     is_utc: bool = False
     renderer: LoggingRenderer = LoggingRenderer.JSON
+    log_unhandled: bool = False
 
     class Config:
         env_file = '.env'

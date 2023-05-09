@@ -9,7 +9,7 @@ from bot.config_reader import bot_config, log_config
 from bot.fluent_helper import FluentDispenser
 from bot.handlers import commands, pm, add_or_migrate, inline_mode, errors
 from bot.logs import get_structlog_config
-from bot.middlewares import L10nMiddleware
+from bot.middlewares import L10nMiddleware, UnhandledUpdatesLoggerMiddleware
 from bot.ui_commands import set_bot_commands
 
 logger: FilteringBoundLogger = structlog.get_logger()
@@ -28,6 +28,9 @@ async def main():
         default_language="en"
     )
     dp.update.middleware(L10nMiddleware(dispenser))
+
+    if log_config.log_unhandled:
+        dp.update.outer_middleware(UnhandledUpdatesLoggerMiddleware())
 
     # Register handlers
     dp.include_router(commands.router)
