@@ -5,7 +5,7 @@ import structlog
 from aiogram import Bot, Dispatcher
 from structlog.typing import FilteringBoundLogger
 
-from bot.config_reader import config
+from bot.config_reader import bot_config, log_config
 from bot.fluent_helper import FluentDispenser
 from bot.handlers import commands, pm, add_or_migrate, inline_mode, errors
 from bot.logs import get_structlog_config
@@ -16,9 +16,9 @@ logger: FilteringBoundLogger = structlog.get_logger()
 
 
 async def main():
-    structlog.configure(**get_structlog_config(config.mode))
+    structlog.configure(**get_structlog_config(log_config))
 
-    bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
+    bot = Bot(bot_config.bot_token.get_secret_value(), parse_mode="HTML")
 
     # Setup dispatcher and bind routers to it
     dp = Dispatcher()
@@ -40,9 +40,9 @@ async def main():
     await set_bot_commands(bot, dispenser)
 
     # Run bot
-    logger.warning("Starting bot")
+    await logger.awarning("Starting bot")
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
-    logger.warning("Bot stopped")
+    await logger.awarning("Bot stopped")
 
 
 if __name__ == "__main__":

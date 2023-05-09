@@ -1,39 +1,40 @@
 import logging
+from json import dumps
 
 import structlog
-from structlog import PrintLoggerFactory
+from structlog import WriteLoggerFactory
 
-from bot.config_reader import ModeEnum
+from bot.config_reader import LoggingSettings, LoggingRenderer
 
 
-def get_structlog_config(mode: ModeEnum) -> dict:
-    log_level = logging.DEBUG if mode == ModeEnum.DEVELOPMENT else logging.WARNING
+def get_structlog_config(config: LoggingSettings) -> dict:
     return {
-        "processors": get_processors(mode),
+        "processors": get_processors(config),
         "cache_logger_on_first_use": True,
-        "wrapper_class": structlog.make_filtering_bound_logger(log_level),
-        "logger_factory": PrintLoggerFactory()
+        "wrapper_class": structlog.make_filtering_bound_logger(logging.getLevelName(config.level)),
+        "logger_factory": WriteLoggerFactory()
     }
 
 
-def get_processors(mode: ModeEnum) -> list:
-    if mode == ModeEnum.DEVELOPMENT:
-        datetime_format = "%Y-%m-%d %H:%M:%S"
-    else:
-        datetime_format = "%Y-%m-%d %H:%M UTC"
+def get_processors(config: LoggingSettings) -> list:
+    def custom_json_serializer(data, *args, **kwargs):
+        result = dict()
+        # Set keys in specific order
+        for key in ("timestamp", "level", "event"):
+            if key in data:
+                result[key] = data.pop(key)
 
-    shared_processors = [
-        structlog.processors.TimeStamper(fmt=datetime_format, utc=mode == ModeEnum.PRODUCTION, key="timestamp"),
+        # Add all other fields
+        result.update(**data)
+        return dumps(result, default=str)
+
+    processors = [
+        structlog.processors.TimeStamper(fmt=config.format, utc=config.is_utc),
         structlog.processors.add_log_level
     ]
 
-    options = {
-        ModeEnum.DEVELOPMENT: shared_processors + [  # noqa
-            structlog.processors.KeyValueRenderer()
-        ],
-        ModeEnum.PRODUCTION: shared_processors + [
-            structlog.processors.dict_tracebacks,
-            structlog.processors.JSONRenderer(),
-        ]
-    }
-    return options[mode]
+    if config.renderer == LoggingRenderer.JSON:
+        processors.append(structlog.processors.JSONRenderer(serializer=custom_json_serializer))
+    else:
+        processors.append(structlog.dev.ConsoleRenderer())
+    return processors

@@ -17,10 +17,10 @@ async def handle_errors(event: ErrorEvent):
         error_message = str(event.exception)
         error_source = "Python"
 
-    logger.error(
+    await logger.aerror(
         "Outgoing bot message error",
         exception_type=event.exception.__class__.__name__,
         message=error_message,
-        update=event.update.json(),
+        update=event.update.dict(),
         error_source=error_source
     )

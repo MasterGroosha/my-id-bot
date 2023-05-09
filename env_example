@@ -1,6 +1,20 @@
 # rename this file to .env (with the following dot)
+
+# Bot token, get one from https://t.me/botfather
 BOT_TOKEN=12345:abcxyz
 
-# Switch to dev to allow logs from DEBUG/INFO levels
-# In dev mode, local time is used instead of UTC
-MODE=prod
+### Logging configuration ###
+
+# Render mode: pretty with "console", or more production-like with "json"
+# Warning: case-sensitive!
+LOGGING_RENDERER=console
+
+# Minimum logging level: DEBUG, INFO, WARNING, ERROR or CRITICAL
+# Warning: case-sensitive!
+LOGGING_LEVEL=INFO
+
+# Datetime format for logs
+LOGGING_FORMAT=%Y-%m-%d %H:%M:%S
+
+# true/yes/1 if you want to show time in UTC timezone instead of computer's local tz
+LOGGING_IS_UTC=no
