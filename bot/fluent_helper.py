@@ -19,7 +19,7 @@ class FluentDispenser:
         if not default_language_dir:
             raise ValueError("FluentDispenser: default language directory not found")
 
-        ftl_files_list = [item.name for item in default_language_dir.iterdir() if item.suffix == ".ftl"]
+        ftl_files_list = [item.name for item in default_language_dir.iterdir() if item.is_file() and item.suffix == ".ftl"]
 
         for name in dirs_names:
             if name == default_language:
