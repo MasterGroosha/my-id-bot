@@ -15,7 +15,7 @@ This is a simple bot written with [aiogram 3.x](https://github.com/aiogram/aiogr
 * Group to supergroup migrate information (both old and new ID).
 
 ## Requirements:
-* Python 3.9 and newer;  
+* Python 3.11 and newer;  
 * Linux (should work on Windows, but not tested);   
 * Systemd init system (optional).  
 * Docker (optional).
