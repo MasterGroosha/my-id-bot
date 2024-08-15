@@ -1,16 +1,12 @@
-from enum import Enum
+from enum import StrEnum, auto
 
-from pydantic import BaseSettings, SecretStr
-
-
-class ModeEnum(str, Enum):
-    DEVELOPMENT = "dev"
-    PRODUCTION = "prod"
+from pydantic import SecretStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class LoggingRenderer(str, Enum):
-    JSON = "json"
-    CONSOLE = "console"
+class LoggingRenderer(StrEnum):
+    JSON = auto()
+    CONSOLE = auto()
 
 
 class LoggingSettings(BaseSettings):
@@ -20,18 +16,22 @@ class LoggingSettings(BaseSettings):
     renderer: LoggingRenderer = LoggingRenderer.JSON
     log_unhandled: bool = False
 
-    class Config:
-        env_file = '.env'
-        env_file_encoding = 'utf-8'
-        env_prefix = "LOGGING_"
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="UTF-8",
+        env_prefix="LOGGING_",
+        extra="allow",
+    )
 
 
 class BotSettings(BaseSettings):
     bot_token: SecretStr
 
-    class Config:
-        env_file = '.env'
-        env_file_encoding = 'utf-8'
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="UTF-8",
+        extra="allow",
+    )
 
 
 bot_config = BotSettings()
