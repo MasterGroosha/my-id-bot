@@ -27,7 +27,7 @@ async def main():
         )
     )
 
-    # Setup dispatcher and bind routers to it
+    # Setup dispatcher
     dp = Dispatcher()
 
     dispenser = FluentDispenser(
@@ -52,9 +52,13 @@ async def main():
     await set_bot_commands(bot, dispenser)
 
     # Run bot
-    await logger.awarning("Starting bot")
+    await logger.awarning(
+        "Important! This version is the last one to use environment variables for configuration. "
+        "The next version is going to use TOML file. Be careful when upgrading bot version in the future."
+    )
+    await logger.ainfo("Starting bot")
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
-    await logger.awarning("Bot stopped")
+    await logger.ainfo("Bot stopped")
 
 
 if __name__ == "__main__":
