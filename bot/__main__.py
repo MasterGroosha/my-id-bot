@@ -3,6 +3,8 @@ from pathlib import Path
 
 import structlog
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from structlog.typing import FilteringBoundLogger
 
 from bot.config_reader import bot_config, log_config
@@ -18,7 +20,12 @@ logger: FilteringBoundLogger = structlog.get_logger()
 async def main():
     structlog.configure(**get_structlog_config(log_config))
 
-    bot = Bot(bot_config.bot_token.get_secret_value(), parse_mode="HTML")
+    bot = Bot(
+        token=bot_config.bot_token.get_secret_value(),
+        default=DefaultBotProperties(
+            parse_mode=ParseMode.HTML
+        )
+    )
 
     # Setup dispatcher and bind routers to it
     dp = Dispatcher()
