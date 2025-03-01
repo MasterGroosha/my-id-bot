@@ -23,7 +23,7 @@ async def main():
     bot = Bot(
         token=bot_config.bot_token.get_secret_value(),
         default=DefaultBotProperties(
-            parse_mode=ParseMode.HTML
+            parse_mode=ParseMode.HTML,
         )
     )
 

@@ -5,6 +5,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/home/user/my-id-bot
+EnvironmentFile=/home/user/my-id-bot/.env
 ExecStart=/home/user/my-id-bot/venv/bin/python -m bot
 KillMode=process
 Restart=always
