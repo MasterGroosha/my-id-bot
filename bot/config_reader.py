@@ -1,12 +1,12 @@
-from enum import StrEnum, auto
+from enum import Enum
 
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class LoggingRenderer(StrEnum):
-    JSON = auto()
-    CONSOLE = auto()
+class LoggingRenderer(str, Enum):
+    JSON = "json"
+    CONSOLE = "console"
 
 
 class LoggingSettings(BaseSettings):
@@ -18,7 +18,7 @@ class LoggingSettings(BaseSettings):
 
     model_config = SettingsConfigDict(
         env_file=".env",
-        env_file_encoding="UTF-8",
+        env_file_encoding="utf-8",
         env_prefix="LOGGING_",
         extra="allow",
     )
@@ -29,7 +29,7 @@ class BotSettings(BaseSettings):
 
     model_config = SettingsConfigDict(
         env_file=".env",
-        env_file_encoding="UTF-8",
+        env_file_encoding="utf-8",
         extra="allow",
     )
 
