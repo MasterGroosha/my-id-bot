@@ -4,11 +4,6 @@ from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class ModeEnum(str, Enum):
-    DEVELOPMENT = "dev"
-    PRODUCTION = "prod"
-
-
 class LoggingRenderer(str, Enum):
     JSON = "json"
     CONSOLE = "console"
