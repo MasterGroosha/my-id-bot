@@ -1,9 +1,5 @@
 # Bot to get users/chats IDs in Telegram
 
-<a href="https://hub.docker.com/r/groosha/my-id-bot"><img src="https://img.shields.io/badge/my--id--bot-docker%20hub-blue"></a>
-<a href="https://t.me/my_id_bot"><img src="https://img.shields.io/badge/Telegram-@my__id__bot-0c5161"></a>   
-Give it a try: [@my_id_bot](https://t.me/my_id_bot).  
-
 This is a simple bot written with [aiogram 3.x](https://github.com/aiogram/aiogram) framework to show some IDs, like:
 
 * Your user ID (when asked in inline mode or in private chat with any message);  
